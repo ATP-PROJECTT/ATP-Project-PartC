@@ -1,4 +1,4 @@
-package com.example.atpprojectpartc;
+package View;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

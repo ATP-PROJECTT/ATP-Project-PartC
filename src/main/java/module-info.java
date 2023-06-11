@@ -11,6 +11,6 @@ module com.example.atpprojectpartc {
             requires eu.hansolo.tilesfx;
             requires com.almasb.fxgl.all;
     
-    opens com.example.atpprojectpartc to javafx.fxml;
-    exports com.example.atpprojectpartc;
+    opens View to javafx.fxml;
+    exports View;
 }
