@@ -10,7 +10,8 @@ module com.example.atpprojectpartc {
             requires org.kordamp.bootstrapfx.core;
             requires eu.hansolo.tilesfx;
             requires com.almasb.fxgl.all;
-    
+    requires ATP.Project.PartB;
+
     opens View to javafx.fxml;
     exports View;
 }
