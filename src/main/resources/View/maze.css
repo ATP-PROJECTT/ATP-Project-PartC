@@ -1,0 +1,4 @@
+.table-row-cell,
+.table-cell {
+    -fx-border-width: 0;
+}
