@@ -10,10 +10,17 @@ public class MazeApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("/MyView.fxml"));
-        primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 1000, 700));
-        primaryStage.show();
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("MyView.fxml"));
+            primaryStage.setTitle("Hello World");
+            primaryStage.setScene(new Scene(root, 1000, 700));
+            primaryStage.show();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(getClass().getResource("MyView.fxml"));
+        }
+
     }
 
     public static void main(String[] args) {
