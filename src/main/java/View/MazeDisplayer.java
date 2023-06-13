@@ -17,6 +17,8 @@ public class MazeDisplayer extends Canvas {
     private int playerCol = 0;
     // wall and player images:
     StringProperty imageFileNameWall = new SimpleStringProperty();
+
+    StringProperty imageFileNamePass = new SimpleStringProperty();
     StringProperty imageFileNamePlayer = new SimpleStringProperty();
 
 
@@ -38,12 +40,20 @@ public class MazeDisplayer extends Canvas {
         return imageFileNameWall.get();
     }
 
+    public String getImageFileNamePass() {
+        return imageFileNamePass.get();
+    }
+
     public String imageFileNameWallProperty() {
         return imageFileNameWall.get();
     }
 
     public void setImageFileNameWall(String imageFileNameWall) {
         this.imageFileNameWall.set(imageFileNameWall);
+    }
+
+    public void setImageFileNamePass(String imageFileNamePass) {
+        this.imageFileNamePass.set(imageFileNamePass);
     }
 
     public String getImageFileNamePlayer() {
@@ -86,23 +96,31 @@ public class MazeDisplayer extends Canvas {
         graphicsContext.setFill(Color.RED);
 
         Image wallImage = null;
+        Image passImage = null;
         try{
             wallImage = new Image(new FileInputStream(getImageFileNameWall()));
+            passImage = new Image(new FileInputStream(getImageFileNamePass()));
         } catch (FileNotFoundException e) {
             System.out.println("There is no wall image file");
         }
 
+
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
+                double x = j * cellWidth;
+                double y = i * cellHeight;
                 if(maze[i][j] == 1){
                     //if it is a wall:
-                    double x = j * cellWidth;
-                    double y = i * cellHeight;
                     if(wallImage == null)
                         graphicsContext.fillRect(x, y, cellWidth, cellHeight);
                     else
                         graphicsContext.drawImage(wallImage, x, y, cellWidth, cellHeight);
                 }
+                else {
+                    if(passImage != null)
+                        graphicsContext.drawImage(passImage, x, y, cellWidth, cellHeight);
+                }
+
             }
         }
     }

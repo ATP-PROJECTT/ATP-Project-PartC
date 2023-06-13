@@ -58,8 +58,23 @@ public class MazeController implements Initializable {
 
         int[][] maze = generator.generateRandomMaze(rows, cols);
 
+        String wallImagePath = getClass().getResource("wall.png").toExternalForm();
+        wallImagePath = wallImagePath.substring("file:".length());// Remove the "file:" prefix present
+        mazeDisplayer.setImageFileNameWall(wallImagePath);
+
+        String passImagePath = getClass().getResource("pass.png").toExternalForm();
+        passImagePath = passImagePath.substring("file:".length()); // Remove the "file:" prefix present
+        mazeDisplayer.setImageFileNamePass(passImagePath);
+
+        String playerImagePath = getClass().getResource("IcyTower.png").toExternalForm();
+        playerImagePath = playerImagePath.substring("file:".length()); // Remove the "file:" prefix present
+        mazeDisplayer.setImageFileNamePlayer(playerImagePath);
+
         mazeDisplayer.drawMaze(maze);
+
+
         setPlayerPosition(0, 0);
+
     }
 
     public void solveMaze(ActionEvent actionEvent) {
@@ -101,4 +116,6 @@ public class MazeController implements Initializable {
     public void mouseClicked(MouseEvent mouseEvent) {
         mazeDisplayer.requestFocus();
     }
+
+
 }
