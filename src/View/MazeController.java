@@ -1,7 +1,5 @@
 package View;
 
-import ViewModel.MyViewModel;
-import algorithms.mazeGenerators.Maze;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
@@ -18,7 +16,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class MazeController implements Initializable {
-    public Maze myMaze;
+    public MazeGenerator generator;
     public TextField textField_mazeRows;
     public TextField textField_mazeColumns;
     public MazeDisplayer mazeDisplayer;
@@ -52,13 +50,13 @@ public class MazeController implements Initializable {
 
     public void generateMaze(ActionEvent actionEvent) {
 
-        MyViewModel myViewModel = new MyViewModel();
+        if(generator == null)
+            generator = new MazeGenerator();
 
         int rows = Integer.valueOf(textField_mazeRows.getText());
         int cols = Integer.valueOf(textField_mazeColumns.getText());
 
-        myMaze = myViewModel.generateMazeMatrix(rows, cols);
-        int[][] mazeMatrix = myMaze.getMyMatrix();
+        int[][] maze = generator.generateRandomMaze(rows, cols);
 
         String wallImagePath = getClass().getResource("wall.png").toExternalForm();
         wallImagePath = wallImagePath.substring("file:".length());// Remove the "file:" prefix present
@@ -72,7 +70,7 @@ public class MazeController implements Initializable {
         playerImagePath = playerImagePath.substring("file:".length()); // Remove the "file:" prefix present
         mazeDisplayer.setImageFileNamePlayer(playerImagePath);
 
-        mazeDisplayer.drawMaze(mazeMatrix);
+        mazeDisplayer.drawMaze(maze);
 
 
         setPlayerPosition(0, 0);

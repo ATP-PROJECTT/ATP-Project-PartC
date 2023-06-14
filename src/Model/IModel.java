@@ -1,5 +1,5 @@
 package Model;
 
 public interface IModel {
-    public Object getBoard(Object details);
+    public Object getBoard();
 }
