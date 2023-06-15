@@ -1,14 +1,20 @@
 package View;
 
+import algorithms.search.AState;
+import algorithms.search.Solution;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 public class MazeDisplayer extends Canvas {
     private int[][] maze;
@@ -73,6 +79,12 @@ public class MazeDisplayer extends Canvas {
         draw();
     }
 
+    public void playerWin(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setContentText("You Win!");
+        alert.show();
+    }
+
     private void draw() {
         if(maze != null){
             double canvasHeight = getHeight();
@@ -89,8 +101,10 @@ public class MazeDisplayer extends Canvas {
 
             drawMazeWalls(graphicsContext, cellHeight, cellWidth, rows, cols);
             drawPlayer(graphicsContext, cellHeight, cellWidth);
+
         }
     }
+
 
     private void drawMazeWalls(GraphicsContext graphicsContext, double cellHeight, double cellWidth, int rows, int cols) {
         graphicsContext.setFill(Color.RED);
@@ -141,4 +155,19 @@ public class MazeDisplayer extends Canvas {
         else
             graphicsContext.drawImage(playerImage, x, y, cellWidth, cellHeight);
     }
+
+    public void displaySolution(Solution mazeSolution){
+        ArrayList<AState> mazeSolutionSteps = mazeSolution.getSolutionPath();
+
+        String s = "";
+
+        for(int i = 0; i < mazeSolutionSteps.size(); ++i)
+            s += (String.format("%s. %s", i, ((AState)mazeSolutionSteps.get(i)).toString()) + "\n");
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setContentText(s);
+        alert.show();
+
+    }
+
 }
