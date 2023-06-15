@@ -1,6 +1,8 @@
 package View;
 
+import algorithms.mazeGenerators.Position;
 import algorithms.search.AState;
+import algorithms.search.MazeState;
 import algorithms.search.Solution;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -32,11 +34,6 @@ public class MazeDisplayer extends Canvas {
     StringProperty imageFileNamePlayerInGoalPose = new SimpleStringProperty();
 
     StringProperty imageFileNameSolutionPass = new SimpleStringProperty();
-
-
-    boolean playerWon;
-
-    boolean solutionDisplayed;
 
     private int goalRow;
 
@@ -73,6 +70,10 @@ public class MazeDisplayer extends Canvas {
         return imageFileNamePlayerInGoalPose.get();
     }
 
+    public String getImageFileNamePlayer() {
+        return imageFileNamePlayer.get();
+    }
+
     public String getImageFileNameSolutionPass() {
         return imageFileNameSolutionPass.get();
     }
@@ -89,9 +90,7 @@ public class MazeDisplayer extends Canvas {
         this.imageFileNamePass.set(imageFileNamePass);
     }
 
-    public String getImageFileNamePlayer() {
-        return imageFileNamePlayer.get();
-    }
+
 
     public String imageFileNamePlayerProperty() {
         return imageFileNamePlayer.get();
@@ -105,14 +104,20 @@ public class MazeDisplayer extends Canvas {
         this.imageFileNameGoal.set(imageFileNamePlayer);
     }
 
-    public void drawMaze(int[][] maze) {
-        this.maze = maze;
+    public void setImageFileNamePlayerInGoalPose(String imageFileNamePlayer) {
+        this.imageFileNamePlayerInGoalPose.set(imageFileNamePlayer);
+    }
+
+    public void drawMaze(int[][] maze, int goalRow, int goalCol) {
+        this.maze = deepCopyMaze(maze);
+        this.goalRow = goalRow;
+        this.goalCol = goalCol;
+        this.maze[goalRow][goalCol] = 2;
         draw();
     }
 
     public void playerWin(){
-        playerWon = true;
-        draw();
+        setPlayerPosition(this.goalRow,this.goalCol);
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText("You Win!");
         alert.show();
@@ -135,7 +140,7 @@ public class MazeDisplayer extends Canvas {
             drawMazeWalls(graphicsContext, cellHeight, cellWidth, rows, cols);
 
             String playerImageStr = getImageFileNamePlayer();
-            if(playerWon)
+            if(maze[playerRow][playerCol] == 2)
                 playerImageStr = getImageFileNamePlayerInGoalPose();
 
             drawPlayer(graphicsContext, cellHeight, cellWidth, playerImageStr);
@@ -150,11 +155,13 @@ public class MazeDisplayer extends Canvas {
 
         Image wallImage = null;
         Image passImage = null;
+        Image solutionImage = null;
         try{
             wallImage = new Image(new FileInputStream(getImageFileNameWall()));
             passImage = new Image(new FileInputStream(getImageFileNamePass()));
+            solutionImage = new Image(new FileInputStream(getImageFileNameGoal()));
         } catch (FileNotFoundException e) {
-            System.out.println("There is no wall/pass image file");
+            System.out.println("There is no wall/pass/goal image file");
         }
 
 
@@ -162,26 +169,27 @@ public class MazeDisplayer extends Canvas {
             for (int j = 0; j < cols; j++) {
                 double x = j * cellWidth;
                 double y = i * cellHeight;
-                if(maze[i][j] == 1){
-                    //if it is a wall:
-                    if(wallImage == null)
-                        graphicsContext.fillRect(x, y, cellWidth, cellHeight);
-                    else
-                        graphicsContext.drawImage(wallImage, x, y, cellWidth, cellHeight);
-                }
-                else {
-                    if(passImage != null)
-                        graphicsContext.drawImage(passImage, x, y, cellWidth, cellHeight);
-                }
+                switch (maze[i][j]){
 
+                    case 0:
+                        if(passImage != null)
+                            graphicsContext.drawImage(passImage, x, y, cellWidth, cellHeight);
+                        break;
+
+                    case 1:
+                        //if it is a wall:
+                        if(wallImage == null)
+                            graphicsContext.fillRect(x, y, cellWidth, cellHeight);
+                        else
+                            graphicsContext.drawImage(wallImage, x, y, cellWidth, cellHeight);
+                        break;
+
+                    case 2:
+                        if(solutionImage != null)
+                            graphicsContext.drawImage(solutionImage, x, y, cellWidth, cellHeight);
+
+                }
             }
-        }
-
-        try {
-            Image goalImage = new Image(new FileInputStream(getImageFileNameGoal()));
-            graphicsContext.drawImage(passImage, goalRow, goalCol, cellWidth, cellHeight);
-        }catch (FileNotFoundException e) {
-            System.out.println("There is no Goal image file");
         }
 
     }
@@ -206,22 +214,27 @@ public class MazeDisplayer extends Canvas {
     public void displaySolution(Solution mazeSolution){
         ArrayList<AState> mazeSolutionSteps = mazeSolution.getSolutionPath();
 
-        String s = "";
-
-        for(int i = 0; i < mazeSolutionSteps.size(); ++i)
-            s += (String.format("%s. %s", i, ((AState)mazeSolutionSteps.get(i)).toString()) + "\n");
-
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setContentText(s);
-        alert.show();
-
+        Position solutionPosition;
+        for(int i = 0; i < mazeSolutionSteps.size(); ++i) {
+            solutionPosition = ((MazeState)mazeSolutionSteps.get(i)).getPosition();
+            maze[solutionPosition.getRowIndex()][solutionPosition.getColumnIndex()] = 2;
+        }
+        draw();
     }
 
-    public void setGoalRow(int goalRow) {
-        this.goalRow = goalRow;
+    private int[][] deepCopyMaze(int[][] originalMaze) {
+
+        int[][] copy = new int[originalMaze.length][];
+
+        for (int i = 0; i < originalMaze.length; i++) {
+            copy[i] = new int[originalMaze[i].length];
+            for (int j = 0; j < originalMaze[i].length; j++) {
+                copy[i][j] = originalMaze[i][j];
+            }
+        }
+
+        return copy;
     }
 
-    public void setGoalCol(int goalCol) {
-        this.goalCol = goalCol;
-    }
+
 }

@@ -74,9 +74,13 @@ public class MyViewController implements Initializable, Observer {
         playerImagePath = playerImagePath.substring("file:".length()); // Remove the "file:" prefix present
         mazeDisplayer.setImageFileNamePlayer(playerImagePath);
 
-        String playerInGoalPath = getClass().getResource("playerInGoal.png").toExternalForm();
+        String playerInGoalPath = getClass().getResource("playerInSolutionPath.png").toExternalForm();
         playerInGoalPath = playerInGoalPath.substring("file:".length()); // Remove the "file:" prefix present
-        mazeDisplayer.setImageFileNameGoal(playerInGoalPath);
+        mazeDisplayer.setImageFileNamePlayerInGoalPose(playerInGoalPath);
+
+        String solutionPassPath = getClass().getResource("solutionPass.png").toExternalForm();
+        solutionPassPath = solutionPassPath.substring("file:".length()); // Remove the "file:" prefix present
+        mazeDisplayer.setImageFileNameGoal(solutionPassPath);
 
         int[] mazeDimensions = {rows, cols};
         myViewModel.generateSearchableGame(mazeDimensions);
@@ -88,11 +92,7 @@ public class MyViewController implements Initializable, Observer {
     }
 
     public void solveMaze(ActionEvent actionEvent) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setContentText("Solving maze...");
-        alert.show();
         myViewModel.solve();
-
     }
 
     public void openFile(ActionEvent actionEvent) {
@@ -136,9 +136,7 @@ public class MyViewController implements Initializable, Observer {
     }
 
     private void mazeGenerated() {
-        mazeDisplayer.setGoalRow(myViewModel.getGoalRow());
-        mazeDisplayer.setGoalCol(myViewModel.getGoalCol());
-        mazeDisplayer.drawMaze(myViewModel.getMaze());
+        mazeDisplayer.drawMaze(myViewModel.getMaze(), myViewModel.getGoalRow(), myViewModel.getGoalCol());
         playerMoved();
     }
 
