@@ -74,6 +74,10 @@ public class MyViewController implements Initializable, Observer {
         playerImagePath = playerImagePath.substring("file:".length()); // Remove the "file:" prefix present
         mazeDisplayer.setImageFileNamePlayer(playerImagePath);
 
+        String playerInGoalPath = getClass().getResource("playerInGoal.png").toExternalForm();
+        playerInGoalPath = playerInGoalPath.substring("file:".length()); // Remove the "file:" prefix present
+        mazeDisplayer.setImageFileNameGoal(playerInGoalPath);
+
         int[] mazeDimensions = {rows, cols};
         myViewModel.generateSearchableGame(mazeDimensions);
 
