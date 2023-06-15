@@ -119,16 +119,21 @@ public class MyViewController implements Initializable, Observer {
     }
 
     private void playerMoved() {
-        int row = myViewModel.getPlayerRow();
-        int col = myViewModel.getPlayerCol();
-        mazeDisplayer.setPlayerPosition(row, col);
-        setUpdatePlayerRow(row);
-        setUpdatePlayerCol(col);
         if(myViewModel.gotToGoalPoint())
             mazeDisplayer.playerWin();
+        else {
+            int row = myViewModel.getPlayerRow();
+            int col = myViewModel.getPlayerCol();
+            mazeDisplayer.setPlayerPosition(row, col);
+            setUpdatePlayerRow(row);
+            setUpdatePlayerCol(col);
+        }
+
     }
 
     private void mazeGenerated() {
+        mazeDisplayer.setGoalRow(myViewModel.getGoalRow());
+        mazeDisplayer.setGoalCol(myViewModel.getGoalCol());
         mazeDisplayer.drawMaze(myViewModel.getMaze());
         playerMoved();
     }

@@ -104,4 +104,12 @@ public class MyViewModel extends Observable implements IViewModel {
     public Solution getSolution() {
         return solution;
     }
+
+    public int getGoalRow() {
+        return goalRow;
+    }
+
+    public int getGoalCol() {
+        return goalCol;
+    }
 }

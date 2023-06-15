@@ -27,6 +27,21 @@ public class MazeDisplayer extends Canvas {
     StringProperty imageFileNamePass = new SimpleStringProperty();
     StringProperty imageFileNamePlayer = new SimpleStringProperty();
 
+    StringProperty imageFileNameGoal = new SimpleStringProperty();
+
+    StringProperty imageFileNamePlayerInGoalPose = new SimpleStringProperty();
+
+    StringProperty imageFileNameSolutionPass = new SimpleStringProperty();
+
+
+    boolean playerWon;
+
+    boolean solutionDisplayed;
+
+    private int goalRow;
+
+    private int goalCol;
+
 
     public int getPlayerRow() {
         return playerRow;
@@ -48,6 +63,18 @@ public class MazeDisplayer extends Canvas {
 
     public String getImageFileNamePass() {
         return imageFileNamePass.get();
+    }
+
+    public String getImageFileNameGoal() {
+        return imageFileNameGoal.get();
+    }
+
+    public String getImageFileNamePlayerInGoalPose() {
+        return imageFileNamePlayerInGoalPose.get();
+    }
+
+    public String getImageFileNameSolutionPass() {
+        return imageFileNameSolutionPass.get();
     }
 
     public String imageFileNameWallProperty() {
@@ -74,12 +101,18 @@ public class MazeDisplayer extends Canvas {
         this.imageFileNamePlayer.set(imageFileNamePlayer);
     }
 
+    public void setImageFileNameGoal(String imageFileNamePlayer) {
+        this.imageFileNameGoal.set(imageFileNamePlayer);
+    }
+
     public void drawMaze(int[][] maze) {
         this.maze = maze;
         draw();
     }
 
     public void playerWin(){
+        playerWon = true;
+        draw();
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText("You Win!");
         alert.show();
@@ -100,10 +133,16 @@ public class MazeDisplayer extends Canvas {
             graphicsContext.clearRect(0, 0, canvasWidth, canvasHeight);
 
             drawMazeWalls(graphicsContext, cellHeight, cellWidth, rows, cols);
-            drawPlayer(graphicsContext, cellHeight, cellWidth);
+
+            String playerImageStr = getImageFileNamePlayer();
+            if(playerWon)
+                playerImageStr = getImageFileNamePlayerInGoalPose();
+
+            drawPlayer(graphicsContext, cellHeight, cellWidth, playerImageStr);
 
         }
     }
+
 
 
     private void drawMazeWalls(GraphicsContext graphicsContext, double cellHeight, double cellWidth, int rows, int cols) {
@@ -115,7 +154,7 @@ public class MazeDisplayer extends Canvas {
             wallImage = new Image(new FileInputStream(getImageFileNameWall()));
             passImage = new Image(new FileInputStream(getImageFileNamePass()));
         } catch (FileNotFoundException e) {
-            System.out.println("There is no wall image file");
+            System.out.println("There is no wall/pass image file");
         }
 
 
@@ -137,16 +176,24 @@ public class MazeDisplayer extends Canvas {
 
             }
         }
+
+        try {
+            Image goalImage = new Image(new FileInputStream(getImageFileNameGoal()));
+            graphicsContext.drawImage(passImage, goalRow, goalCol, cellWidth, cellHeight);
+        }catch (FileNotFoundException e) {
+            System.out.println("There is no Goal image file");
+        }
+
     }
 
-    private void drawPlayer(GraphicsContext graphicsContext, double cellHeight, double cellWidth) {
+    private void drawPlayer(GraphicsContext graphicsContext, double cellHeight, double cellWidth, String playerImageStr) {
         double x = getPlayerCol() * cellWidth;
         double y = getPlayerRow() * cellHeight;
         graphicsContext.setFill(Color.GREEN);
 
         Image playerImage = null;
         try {
-            playerImage = new Image(new FileInputStream(getImageFileNamePlayer()));
+            playerImage = new Image(new FileInputStream(playerImageStr));
         } catch (FileNotFoundException e) {
             System.out.println("There is no player image file");
         }
@@ -170,4 +217,11 @@ public class MazeDisplayer extends Canvas {
 
     }
 
+    public void setGoalRow(int goalRow) {
+        this.goalRow = goalRow;
+    }
+
+    public void setGoalCol(int goalCol) {
+        this.goalCol = goalCol;
+    }
 }
