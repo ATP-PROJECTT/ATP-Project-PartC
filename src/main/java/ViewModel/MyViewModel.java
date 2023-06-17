@@ -1,14 +1,17 @@
 package ViewModel;
 
 import Model.MyModel;
+import View.Main;
+import View.SoundController;
 import algorithms.mazeGenerators.Maze;
-import algorithms.search.SearchableMaze;
 import algorithms.search.Solution;
 import javafx.scene.input.KeyEvent;
 
 import java.util.Observable;
 
 public class MyViewModel extends Observable implements IViewModel {
+
+    private SoundController soundController;
     MyModel myModel;
 
     public Maze myMaze;
@@ -24,6 +27,7 @@ public class MyViewModel extends Observable implements IViewModel {
     public MyViewModel(){
         myModel = new MyModel();
         myModel.addViewModel(this);
+        soundController = SoundController.getInstance();
     }
 
     public void generateSearchableGame(Object mazeDimensions){
@@ -46,7 +50,6 @@ public class MyViewModel extends Observable implements IViewModel {
         catch (ClassCastException exception){
             solution = (Solution) arg;
             event = "set solution";
-            myModel.stop();
         }
         this.notifyObservers(event);
     }
@@ -54,7 +57,8 @@ public class MyViewModel extends Observable implements IViewModel {
 
     @Override
     public void solve() {
-        myModel.solve(myMaze);
+        if(myMaze != null)
+            myModel.solve(myMaze);
     }
 
     @Override
@@ -67,8 +71,15 @@ public class MyViewModel extends Observable implements IViewModel {
         return playerCol;
     }
 
-    private void setPlayerPosition(int row, int col){
-        if( row >= 0 && col >=0 && myMaze.isTherePassHere(row,col)){
+    private void setPlayerPosition(int row, int col, boolean diagonalMove){
+        if( row >= 0 && col >=0 && row < myMaze.getRows() && col < myMaze.getColumns() && myMaze.isTherePassHere(row,col)){
+            if(diagonalMove){
+                if(!(myMaze.isTherePassHere(playerRow, col) || myMaze.isTherePassHere(row, playerCol))) // cant move diagonal
+                    return;
+                soundController.playDiagonalMoveSound();
+            }
+            else
+                soundController.playRegularMoveSound();
             playerRow = row;
             playerCol = col;
         }
@@ -85,18 +96,19 @@ public class MyViewModel extends Observable implements IViewModel {
     public void movePlayer(KeyEvent keyEvent) {
         int row = playerRow;
         int col = playerCol;
+        boolean diagonalMove = false;
 
         switch (keyEvent.getCode()) {
             case NUMPAD8 -> row -= 1;
             case NUMPAD2 -> row += 1;
             case NUMPAD6 -> col += 1;
             case NUMPAD4 -> col -= 1;
-            case NUMPAD9 -> {row -= 1; col += 1;}
-            case NUMPAD7 -> {row -= 1; col -= 1;}
-            case NUMPAD1 -> {row += 1; col -= 1;}
-            case NUMPAD3 -> {row += 1; col += 1;}
+            case NUMPAD9 -> {row -= 1; col += 1; diagonalMove = true;}
+            case NUMPAD7 -> {row -= 1; col -= 1; diagonalMove = true;}
+            case NUMPAD1 -> {row += 1; col -= 1; diagonalMove = true;}
+            case NUMPAD3 -> {row += 1; col += 1; diagonalMove = true;}
         }
-        setPlayerPosition(row, col);
+        setPlayerPosition(row, col, diagonalMove);
 
         keyEvent.consume();
     }

@@ -1,0 +1,25 @@
+
+.root {
+    -fx-background-image: url('images/icy-tower-backround.jpg');
+    -fx-background-size: cover;
+}
+
+@font-face {
+    font-family: 'Icy tower font';
+    src: url('font/icy-tower-menu2.ttf');
+}
+
+
+Button  {
+    -fx-font-family: 'Icy Tower Font';
+    -fx-text-fill: linear-gradient(to right, #fc0404, #00ff00);
+    -fx-font-weight: bold;
+    -fx-background-image: url('images/floorBackround.png');
+    -fx-background-size: contain;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.6), 5, 0.0, 0, 1);
+}
+
+
+Button:hover {
+    -fx-background-image: url('images/floorBackroundHover.png');
+}

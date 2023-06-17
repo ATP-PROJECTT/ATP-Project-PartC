@@ -5,7 +5,6 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
@@ -17,9 +16,11 @@ import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 
 public class MyViewController implements Initializable, Observer {
 
+    private Main mainApp;
     public TextField textField_mazeRows;
     public TextField textField_mazeColumns;
     public MazeDisplayer mazeDisplayer;
@@ -28,13 +29,32 @@ public class MyViewController implements Initializable, Observer {
 
     StringProperty updatePlayerRow = new SimpleStringProperty();
     StringProperty updatePlayerCol = new SimpleStringProperty();
+    SoundController soundController;
 
     MyViewModel myViewModel;
     public MyViewController(){
+        soundController = SoundController.getInstance();
         myViewModel = new MyViewModel();
         myViewModel.addObserver(this);
     }
 
+    public void setMainApp(Main mainApp) {
+        this.mainApp = mainApp;
+    }
+
+    @FXML
+    private void goBack() {
+        mainApp.goBackToMainMenu();
+    }
+
+    @FXML
+    private void playHoverSound() {
+        soundController.playHoverSound();
+    }
+
+    public void stopHoverSound(MouseEvent mouseEvent) {
+        soundController.stopPlayHoverSound();
+    }
     public String getUpdatePlayerRow() {
         return updatePlayerRow.get();
     }
@@ -58,27 +78,28 @@ public class MyViewController implements Initializable, Observer {
     }
 
     public void generateMaze(ActionEvent actionEvent) {
+        soundController.playChooseSound();
 
         int rows = Integer.valueOf(textField_mazeRows.getText());
         int cols = Integer.valueOf(textField_mazeColumns.getText());
 
-        String wallImagePath = getClass().getResource("wall.png").toExternalForm();
+        String wallImagePath = getClass().getResource("Images/wall.png").toExternalForm();
         wallImagePath = wallImagePath.substring("file:".length());// Remove the "file:" prefix present
         mazeDisplayer.setImageFileNameWall(wallImagePath);
 
-        String passImagePath = getClass().getResource("pass.png").toExternalForm();
+        String passImagePath = getClass().getResource("Images/pass.png").toExternalForm();
         passImagePath = passImagePath.substring("file:".length()); // Remove the "file:" prefix present
         mazeDisplayer.setImageFileNamePass(passImagePath);
 
-        String playerImagePath = getClass().getResource("IcyTower.png").toExternalForm();
+        String playerImagePath = getClass().getResource("Images/IcyTower.png").toExternalForm();
         playerImagePath = playerImagePath.substring("file:".length()); // Remove the "file:" prefix present
         mazeDisplayer.setImageFileNamePlayer(playerImagePath);
 
-        String playerInGoalPath = getClass().getResource("playerInSolutionPath.png").toExternalForm();
+        String playerInGoalPath = getClass().getResource("Images/playerInSolutionPath.png").toExternalForm();
         playerInGoalPath = playerInGoalPath.substring("file:".length()); // Remove the "file:" prefix present
         mazeDisplayer.setImageFileNamePlayerInGoalPose(playerInGoalPath);
 
-        String solutionPassPath = getClass().getResource("solutionPass.png").toExternalForm();
+        String solutionPassPath = getClass().getResource("Images/solutionPass.png").toExternalForm();
         solutionPassPath = solutionPassPath.substring("file:".length()); // Remove the "file:" prefix present
         mazeDisplayer.setImageFileNameGoal(solutionPassPath);
 
@@ -88,10 +109,10 @@ public class MyViewController implements Initializable, Observer {
 
 
 
-
     }
 
     public void solveMaze(ActionEvent actionEvent) {
+        soundController.playChooseSound();
         myViewModel.solve();
     }
 
@@ -123,8 +144,10 @@ public class MyViewController implements Initializable, Observer {
     }
 
     private void playerMoved() {
-        if(myViewModel.gotToGoalPoint())
+        if(myViewModel.gotToGoalPoint()) {
             mazeDisplayer.playerWin();
+            soundController.playWinSound();
+        }
         else {
             int row = myViewModel.getPlayerRow();
             int col = myViewModel.getPlayerCol();
@@ -143,5 +166,10 @@ public class MyViewController implements Initializable, Observer {
     public void keyPressed(KeyEvent keyEvent){
         myViewModel.movePlayer(keyEvent);
         playerMoved();
+    }
+
+    public void Exit(ActionEvent actionEvent) {
+        soundController.playChooseSound();
+        System.exit(0);
     }
 }

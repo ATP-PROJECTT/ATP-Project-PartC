@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+<VBox stylesheets="@MenuStyle.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MainMenuController">
+    <Button text="Create New Maze" onMouseEntered="#playHoverSound" onMouseExited="#stopHoverSound" onAction="#openMyViewWindow" style="-fx-font-size: 24px; -fx-pref-width: 400px; -fx-pref-height: 100px;" />
+</VBox>
