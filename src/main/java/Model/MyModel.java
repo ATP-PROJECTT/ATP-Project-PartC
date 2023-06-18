@@ -13,6 +13,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import org.apache.logging.log4j.LogManager;
@@ -177,12 +178,10 @@ public class MyModel extends Observable implements IModel {
             File newFile = new File(path);
             FileInputStream fileInputStream = new FileInputStream(newFile);
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-            MyDecompressorInputStream decompressorInputStream = new MyDecompressorInputStream(objectInputStream);
-            byte[] decomressed = new byte[10000];
-            decompressorInputStream.read(decomressed);
-            System.out.println(decomressed);
+            List<Byte> decompressed = MyDecompressorInputStream.decompress((byte[]) objectInputStream.readObject());
+            System.out.println(decompressed);
 
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             return null;
         }
         return null;
