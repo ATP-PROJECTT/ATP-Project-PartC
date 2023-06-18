@@ -5,18 +5,17 @@ import IO.MyDecompressorInputStream;
 import ViewModel.IViewModel;
 import algorithms.mazeGenerators.Maze;
 import Server.*;
-import algorithms.mazeGenerators.MyMazeGenerator;
-import algorithms.search.AState;
-import algorithms.search.ISearchable;
-import algorithms.search.SearchableMaze;
+import IO.*;
 import algorithms.search.Solution;
 
 import java.io.*;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+
 
 public class MyModel extends Observable implements IModel {
 
@@ -96,6 +95,67 @@ public class MyModel extends Observable implements IModel {
         } catch (UnknownHostException var1) {
             var1.printStackTrace();
         }
+    }
+
+    @Override
+    public void save(Object game, Object position, String name) {
+        Maze maze = (Maze) game;
+        int[] pose = (int[]) position;
+        byte[] compressedMaze = MyCompressorOutputStream.compressToBinary(maze.toByteArray());
+        byte[] rowPose = toByteInfo(pose[0]);
+        byte[] colPose = toByteInfo(pose[1]);
+        byte[] arrForSave = combineByteArrays(compressedMaze,rowPose,colPose);
+        saveObject(arrForSave, name);
+
+    }
+
+    private void saveObject(byte[] arrForSave, String fileName){
+        // Get the user's home directory
+        String userHome = System.getProperty("user.home");
+
+        // Specify the desired file path within the resources package
+        String resourcesPath = userHome + File.separator + "ATP-Project-PartC" + File.separator + "SavedMazes" + File.separator + fileName + ".txt";
+
+        // Create the necessary directories if they don't exist
+        File resourcesDir = new File(resourcesPath).getParentFile();
+        resourcesDir.mkdirs();
+
+        try (FileOutputStream fileOutputStream = new FileOutputStream(resourcesPath)) {
+            // Write the file content
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            objectOutputStream.writeObject(arrForSave);
+            objectOutputStream.flush();
+            fileOutputStream.close();
+            objectOutputStream.close();
+
+            System.out.println("File saved to: " + resourcesPath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private byte[] combineByteArrays(byte[] array1, byte[] array2, byte[] array3) {
+        int totalLength = array1.length + array2.length + array3.length;
+
+        ByteBuffer buffer = ByteBuffer.allocate(totalLength);
+        buffer.put(array1);
+        buffer.put(array2);
+        buffer.put(array3);
+
+        return buffer.array();
+    }
+    private byte[] toByteInfo(int value) {
+        String binaryNum = String.format("%16s", Integer.toBinaryString(value)).replace(' ', '0');
+        byte[] binArray = new byte[16];
+
+        for(int i = 0; i < binaryNum.length(); ++i) {
+            char c = binaryNum.charAt(i);
+            byte val = (byte)Character.getNumericValue(c);
+            binArray[i] = val;
+        }
+
+        return binArray;
     }
 
     public void stop(){

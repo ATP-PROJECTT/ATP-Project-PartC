@@ -5,6 +5,8 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
@@ -20,6 +22,9 @@ import javafx.fxml.FXML;
 
 public class MyViewController implements Initializable, Observer {
 
+    public Button saveMazeButton;
+    public TextField saveMazeTextArea;
+    public Label saveMazeLabel;
     private Main mainApp;
     public TextField textField_mazeRows;
     public TextField textField_mazeColumns;
@@ -73,6 +78,9 @@ public class MyViewController implements Initializable, Observer {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        saveMazeTextArea.setVisible(false);
+        saveMazeButton.setVisible(false);
+        saveMazeLabel.setVisible(false);
         playerRow.textProperty().bind(updatePlayerRow);
         playerCol.textProperty().bind(updatePlayerCol);
     }
@@ -106,9 +114,11 @@ public class MyViewController implements Initializable, Observer {
         int[] mazeDimensions = {rows, cols};
         myViewModel.generateSearchableGame(mazeDimensions);
 
+        saveMazeButton.setVisible(true);
+        saveMazeTextArea.setVisible(true);
+        saveMazeLabel.setVisible(true);
 
-
-
+        soundController.changeToGameMusic();
     }
 
     public void solveMaze(ActionEvent actionEvent) {
@@ -171,5 +181,12 @@ public class MyViewController implements Initializable, Observer {
     public void Exit(ActionEvent actionEvent) {
         soundController.playChooseSound();
         System.exit(0);
+    }
+
+    public void save(ActionEvent actionEvent) {
+        myViewModel.save(saveMazeTextArea.getText());
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setContentText("Maze saved successfully");
+        alert.show();
     }
 }

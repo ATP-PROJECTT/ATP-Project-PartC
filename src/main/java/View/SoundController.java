@@ -7,7 +7,7 @@ import javafx.scene.media.MediaPlayer;
 public class SoundController {
 
     private static SoundController soundController;
-    private MediaPlayer mediaPlayer;
+    private MediaPlayer backgroundMusic;
 
     private MediaPlayer hoverSound;
 
@@ -18,12 +18,15 @@ public class SoundController {
     private MediaPlayer regularMoveSound;
     private MediaPlayer diagonalMoveSound;
 
+    private MediaPlayer gameMusic;
+
     private SoundController(){
         hoverSound = getMediaPlayer("Sounds/menu_change.mp3");
         chooseSound = getMediaPlayer("Sounds/menu_choose.mp3");
         winningSound = getMediaPlayer("Sounds/cheer.mp3");
         regularMoveSound = getMediaPlayer("Sounds/regularMove.mp3");
         diagonalMoveSound = getMediaPlayer("Sounds/diagonalMove.mp3");
+        gameMusic = getMediaPlayer("Sounds/gameBackgroundMusic.mp3");
         playBackgroundMusic();
     }
 
@@ -89,10 +92,17 @@ public class SoundController {
     }
 
     private void playBackgroundMusic() {
-        mediaPlayer = getMediaPlayer("Sounds/IcyTowerSong.mp3");
-        mediaPlayer.setAutoPlay(true);
-        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-        mediaPlayer.play();
+        backgroundMusic = getMediaPlayer("Sounds/IcyTowerSong.mp3");
+        backgroundMusic.setAutoPlay(true);
+        backgroundMusic.setCycleCount(MediaPlayer.INDEFINITE);
+        backgroundMusic.play();
+    }
+
+    public void changeToGameMusic(){
+        backgroundMusic.stop();
+        gameMusic.setAutoPlay(true);
+        gameMusic.setCycleCount(MediaPlayer.INDEFINITE);
+        gameMusic.play();
     }
 
     @FXML

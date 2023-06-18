@@ -4,36 +4,37 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<BorderPane onMouseClicked="#mouseClicked" prefHeight="408.0" prefWidth="594.0" stylesheets="@MenuStyle.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MyViewController">
+<BorderPane onMouseClicked="#mouseClicked" prefHeight="562.0" prefWidth="593.0" stylesheets="@MenuStyle.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MyViewController">
     <left>
         <VBox prefHeight="200.0" prefWidth="178.0" spacing="5.0" BorderPane.alignment="CENTER">
             <children>
-                <GridPane prefWidth="168.0">
+                <GridPane alignment="TOP_CENTER" prefHeight="454.0" prefWidth="169.0">
                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="139.8" minWidth="10.0" prefWidth="139.8" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="79.0" minWidth="10.0" prefWidth="29.799999999999983" />
                     </columnConstraints>
                     <rowConstraints>
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="135.4000152587891" minHeight="10.0" prefHeight="124.4000152587891" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="147.4" minHeight="10.0" prefHeight="127.40000000000003" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="70.39999999999998" minHeight="3.3999999999999773" prefHeight="21.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                     <Label text="Maze rows:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
                     <Label text="Maze columns:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
                     <TextField fx:id="textField_mazeRows" text="50" GridPane.columnIndex="1" GridPane.rowIndex="0" />
                     <TextField fx:id="textField_mazeColumns" text="50" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                    <Button onMouseEntered="#playHoverSound" onMouseExited="#stopHoverSound" onAction="#generateMaze" prefHeight="25.0" prefWidth="167.0" text="Generate Maze" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="2" />
-                    <Button cancelButton="true" onMouseEntered="#playHoverSound" onMouseExited="#stopHoverSound" onAction="#solveMaze" prefHeight="25.0" prefWidth="167.0" text="Solve Maze" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="3" />
+                    <Button alignment="TOP_CENTER" contentDisplay="TOP" lineSpacing="1.0" onAction="#generateMaze" onMouseEntered="#playHoverSound" onMouseExited="#stopHoverSound" prefHeight="95.0" prefWidth="167.0" text="Generate Maze" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="2" />
+                    <Button alignment="TOP_CENTER" cancelButton="true" contentDisplay="TOP" onAction="#solveMaze" onMouseEntered="#playHoverSound" onMouseExited="#stopHoverSound" prefHeight="94.0" prefWidth="167.0" text="Solve Maze" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="3" />
                     <Label text="Player Row = " GridPane.rowIndex="4" />
                     <Label text="Player Col = " GridPane.rowIndex="5" />
                     <Label fx:id="playerRow" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                     <Label fx:id="playerCol" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                 </GridPane>
-            <Button mnemonicParsing="false" onMouseEntered="#playHoverSound" onMouseExited="#stopHoverSound" onAction="#Exit" prefHeight="23.0" prefWidth="183.0" text="Exit" />
+            <Button alignment="TOP_CENTER" contentDisplay="TOP" mnemonicParsing="false" onAction="#Exit" onMouseEntered="#playHoverSound" onMouseExited="#stopHoverSound" prefHeight="38.0" prefWidth="169.0" text="Exit" textAlignment="CENTER" />
             </children>
             <padding>
                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -76,7 +77,14 @@
     <center>
         <Pane BorderPane.alignment="CENTER">
             <children>
-                <MazeDisplayer fx:id="mazeDisplayer" height="400.0" imageFileNamePlayer="./resources/images/mario.jpg" imageFileNameWall="./resources/images/wall.png" onKeyPressed="#keyPressed" width="400.0" />
+                <MazeDisplayer fx:id="mazeDisplayer" height="584.0" imageFileNamePlayer="./resources/images/mario.jpg" imageFileNameWall="./resources/images/wall.png" layoutX="-6.0" onKeyPressed="#keyPressed" width="584.0" />
+                <Button fx:id="saveMazeButton" layoutX="386.0" layoutY="585.0" mnemonicParsing="false" onAction="#save" onMouseEntered="#playHoverSound" onMouseExited="#stopHoverSound" prefHeight="56.0" prefWidth="190.0" text="Save Maze" visible="false" />
+            <Label fx:id="saveMazeLabel" layoutX="14.0" layoutY="589.0" prefHeight="48.0" prefWidth="169.0" text="Maze name: " />
+            <TextField fx:id="saveMazeTextArea" layoutX="135.0" layoutY="585.0" prefHeight="57.0" prefWidth="236.0">
+               <font>
+                  <Font name="System Bold Italic" size="17.0" />
+               </font>
+            </TextField>
             </children>
             <padding>
                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

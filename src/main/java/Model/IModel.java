@@ -14,4 +14,6 @@ public interface IModel {
     void notifyViewModel(Object o);
 
     void solve(Object game);
+
+    void save(Object game, Object position, String name);
 }

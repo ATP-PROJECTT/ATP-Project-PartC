@@ -54,6 +54,10 @@ public class MyViewModel extends Observable implements IViewModel {
         this.notifyObservers(event);
     }
 
+    public void save(String name){
+        int[] playerPosition = {playerRow,playerCol};
+        myModel.save(myMaze,playerPosition,name);
+    }
 
     @Override
     public void solve() {

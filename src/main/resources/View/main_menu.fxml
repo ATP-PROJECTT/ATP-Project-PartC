@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.Button?>
-<VBox stylesheets="@MenuStyle.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MainMenuController">
-    <Button text="Create New Maze" onMouseEntered="#playHoverSound" onMouseExited="#stopHoverSound" onAction="#openMyViewWindow" style="-fx-font-size: 24px; -fx-pref-width: 400px; -fx-pref-height: 100px;" />
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox prefHeight="800.0" prefWidth="900.0" stylesheets="@MenuStyle.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MainMenuController">
+    <Button onAction="#openMyViewWindow" onMouseEntered="#playHoverSound" onMouseExited="#stopHoverSound" prefHeight="100.0" prefWidth="400.0" text="Create New Maze">
+      <font>
+         <Font size="33.0" />
+      </font></Button>
+   <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="400.0" text="Load Maze">
+      <font>
+         <Font size="33.0" />
+      </font>
+   </Button>
+   <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="400.0" text="Properties" />
+   <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="400.0" text="Help" />
+   <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="400.0" text="About" />
+   <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="400.0" text="Exit" />
 </VBox>

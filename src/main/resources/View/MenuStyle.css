@@ -14,12 +14,20 @@ Button  {
     -fx-font-family: 'Icy Tower Font';
     -fx-text-fill: linear-gradient(to right, #fc0404, #00ff00);
     -fx-font-weight: bold;
+    -fx-font-size: 26;
     -fx-background-image: url('images/floorBackround.png');
     -fx-background-size: contain;
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.6), 5, 0.0, 0, 1);
 }
 
 
+
 Button:hover {
     -fx-background-image: url('images/floorBackroundHover.png');
+}
+
+Label {
+    -fx-font-size: 18;
+    -fx-text-fill: linear-gradient(to right, #fc0404, #00ff00);
+    -fx-font-weight: bold;
 }
