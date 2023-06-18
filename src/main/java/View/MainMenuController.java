@@ -1,5 +1,6 @@
 package View;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
 
@@ -28,5 +29,10 @@ public class MainMenuController {
 
     public void stopHoverSound(MouseEvent mouseEvent) {
         soundController.stopPlayHoverSound();
+    }
+
+    public void exit(ActionEvent actionEvent) {
+        soundController.playChooseSound();
+        System.exit(0);
     }
 }

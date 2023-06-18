@@ -17,5 +17,5 @@
    <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="400.0" text="Properties" />
    <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="400.0" text="Help" />
    <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="400.0" text="About" />
-   <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="400.0" text="Exit" />
+   <Button onAction="#exit" mnemonicParsing="false" prefHeight="100.0" prefWidth="400.0" text="Exit" />
 </VBox>
