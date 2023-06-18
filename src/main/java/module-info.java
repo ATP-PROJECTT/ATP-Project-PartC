@@ -11,6 +11,7 @@ module com.example.atpprojectpartc {
             requires eu.hansolo.tilesfx;
             requires com.almasb.fxgl.all;
     requires ATPProjectJAR;
+    requires org.apache.logging.log4j;
 
     opens View to javafx.fxml;
     exports View;

@@ -15,10 +15,13 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 public class MyModel extends Observable implements IModel {
 
+    private static final Logger logger = LogManager.getLogger(MyModel.class);
     Server mazeGeneratingServer;
     Server solveSearchProblemServer;
     Maze curMaze;
@@ -37,6 +40,7 @@ public class MyModel extends Observable implements IModel {
             Client client = new Client(InetAddress.getLocalHost(), 5400,  new IClientStrategy() {
                 public void clientStrategy(InputStream inFromServer, OutputStream outToServer) {
                     try {
+                        logger.info("hi");
                         int[] mazeDimensions = curMazeDimensions;
                         ObjectOutputStream toServer = new ObjectOutputStream(outToServer);
                         ObjectInputStream fromServer = new ObjectInputStream(inFromServer);
