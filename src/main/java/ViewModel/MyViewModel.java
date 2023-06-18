@@ -1,6 +1,7 @@
 package ViewModel;
 
 import Model.MyModel;
+import Model.SavableGame;
 import View.Main;
 import View.SoundController;
 import algorithms.mazeGenerators.Maze;
@@ -24,10 +25,20 @@ public class MyViewModel extends Observable implements IViewModel {
 
     private int goalCol;
 
-    public MyViewModel(){
+    private static MyViewModel myViewModel;
+
+
+
+    private MyViewModel(){
         myModel = new MyModel();
         myModel.addViewModel(this);
         soundController = SoundController.getInstance();
+    }
+
+    public static MyViewModel getInstance(){
+        if(myViewModel == null)
+            myViewModel = new MyViewModel();
+        return myViewModel;
     }
 
     public void generateSearchableGame(Object mazeDimensions){
@@ -56,7 +67,7 @@ public class MyViewModel extends Observable implements IViewModel {
 
     public void save(String name){
         int[] playerPosition = {playerRow,playerCol};
-        myModel.save(myMaze,playerPosition,name);
+        myModel.save(new SavableGame(myMaze,playerPosition,name));
     }
 
     @Override
@@ -87,6 +98,10 @@ public class MyViewModel extends Observable implements IViewModel {
             playerRow = row;
             playerCol = col;
         }
+    }
+
+    public void loadMaze(String gameName){
+        myModel.load(gameName);
     }
 
     public boolean gotToGoalPoint(){

@@ -39,7 +39,7 @@ public class MyViewController implements Initializable, Observer {
     MyViewModel myViewModel;
     public MyViewController(){
         soundController = SoundController.getInstance();
-        myViewModel = new MyViewModel();
+        myViewModel = MyViewModel.getInstance();
         myViewModel.addObserver(this);
     }
 

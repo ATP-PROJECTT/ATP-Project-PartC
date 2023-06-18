@@ -15,5 +15,7 @@ public interface IModel {
 
     void solve(Object game);
 
-    void save(Object game, Object position, String name);
+    void save(SavableGame savableGame);
+
+    SavableGame load(String gameName);
 }

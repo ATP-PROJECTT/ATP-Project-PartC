@@ -25,7 +25,7 @@ public class Main extends Application {
         this.primaryStage = primaryStage;
 
         // Create the main menu scene
-        FXMLLoader mainMenuLoader = new FXMLLoader(getClass().getResource("main_menu.fxml"));
+        FXMLLoader mainMenuLoader = new FXMLLoader(getClass().getResource("MyView2.fxml"));
         Parent mainMenuRoot = mainMenuLoader.load();
         MainMenuController mainMenuController = mainMenuLoader.getController();
         mainMenuController.setMainApp(this);

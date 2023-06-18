@@ -102,23 +102,21 @@ public class MyModel extends Observable implements IModel {
     }
 
     @Override
-    public void save(Object game, Object position, String name) {
-        Maze maze = (Maze) game;
-        int[] pose = (int[]) position;
+    public void save(SavableGame savableMaze) {
+        Maze maze = (Maze) savableMaze.getGame();
+        int[] pose = (int[]) savableMaze.getPosition();
         byte[] compressedMaze = MyCompressorOutputStream.compressToBinary(maze.toByteArray());
         byte[] rowPose = toByteInfo(pose[0]);
         byte[] colPose = toByteInfo(pose[1]);
         byte[] arrForSave = combineByteArrays(compressedMaze,rowPose,colPose);
-        saveObject(arrForSave, name);
+        saveObject(arrForSave, savableMaze.getGameName());
 
     }
 
     private void saveObject(byte[] arrForSave, String fileName){
-        // Get the user's home directory
-        String userHome = System.getProperty("user.home");
 
         // Specify the desired file path within the resources package
-        String resourcesPath = userHome + File.separator + "ATP-Project-PartC" + File.separator + "SavedMazes" + File.separator + fileName + ".txt";
+        String resourcesPath = getPath(fileName);
 
         // Create the necessary directories if they don't exist
         File resourcesDir = new File(resourcesPath).getParentFile();
@@ -137,6 +135,15 @@ public class MyModel extends Observable implements IModel {
             e.printStackTrace();
         }
 
+    }
+
+    private String getPath(String fileName){
+        // Get the user's home directory
+        String userHome = System.getProperty("user.home");
+
+        // Specify the desired file path within the resources package
+
+        return userHome + File.separator + "ATP-Project-PartC" + File.separator + "SavedMazes" + File.separator + fileName + ".txt";
     }
 
     private byte[] combineByteArrays(byte[] array1, byte[] array2, byte[] array3) {
@@ -160,6 +167,38 @@ public class MyModel extends Observable implements IModel {
         }
 
         return binArray;
+    }
+
+    @Override
+    public SavableGame load(String gameName) {
+
+        try {
+            String path = getPath(gameName);
+            File newFile = new File(path);
+            FileInputStream fileInputStream = new FileInputStream(newFile);
+            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+            MyDecompressorInputStream decompressorInputStream = new MyDecompressorInputStream(objectInputStream);
+            byte[] decomressed = new byte[10000];
+            decompressorInputStream.read(decomressed);
+            System.out.println(decomressed);
+
+        } catch (IOException e) {
+            return null;
+        }
+        return null;
+    }
+
+    private int toIntInfo(byte[] byteArray) {
+        StringBuilder binaryString = new StringBuilder();
+        byte[] var3 = byteArray;
+        int var4 = byteArray.length;
+
+        for(int var5 = 0; var5 < var4; ++var5) {
+            byte b = var3[var5];
+            binaryString.append(b);
+        }
+
+        return Integer.parseInt(binaryString.toString(), 2);
     }
 
     public void stop(){
