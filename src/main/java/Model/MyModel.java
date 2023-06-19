@@ -106,11 +106,12 @@ public class MyModel extends Observable implements IModel {
     public void save(SavableGame savableMaze) {
         Maze maze = (Maze) savableMaze.getGame();
         int[] pose = (int[]) savableMaze.getPosition();
-        byte[] compressedMaze = MyCompressorOutputStream.compressToBinary(maze.toByteArray());
+
         byte[] rowPose = toByteInfo(pose[0]);
         byte[] colPose = toByteInfo(pose[1]);
-        byte[] arrForSave = combineByteArrays(compressedMaze,rowPose,colPose);
-        saveObject(arrForSave, savableMaze.getGameName());
+        byte[] combined = combineByteArrays(maze.toByteArray(),rowPose,colPose);
+        byte[] compressedMaze = MyCompressorOutputStream.compressToBinary(combined);
+        saveObject(compressedMaze, savableMaze.getGameName());
 
     }
 
@@ -171,7 +172,7 @@ public class MyModel extends Observable implements IModel {
     }
 
     @Override
-    public SavableGame load(String gameName) {
+    public void load(String gameName) {
 
         try {
             String path = getPath(gameName);
@@ -179,12 +180,33 @@ public class MyModel extends Observable implements IModel {
             FileInputStream fileInputStream = new FileInputStream(newFile);
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
             List<Byte> decompressed = MyDecompressorInputStream.decompress((byte[]) objectInputStream.readObject());
-            System.out.println(decompressed);
+            byte[] mazeArr = new byte[decompressed.size() - 32];
+            byte[] rowPoseArr = new byte[16];
+            byte[] colPose = new byte[16];
+            int rowPosIndex = 0;
+            int colPoseIndex = 0;
+            for (int i = 0; i<decompressed.size(); i++){
+                if(i<decompressed.size()-32)
+                    mazeArr[i] = decompressed.get(i);
+                else if(i<decompressed.size()-16){
+                    rowPoseArr[rowPosIndex] = decompressed.get(i);
+                    rowPosIndex++;
+                }
+                else {
+                    colPose[colPoseIndex] = decompressed.get(i);
+                    colPoseIndex++;
+                }
+            }
+
+            Maze maze = new Maze(mazeArr);
+            int rowPosition = toIntInfo(rowPoseArr);
+            int colPosition = toIntInfo(colPose);
+            int[] position = {rowPosition, colPosition};
+            notifyViewModel(new SavableGame(maze,position,gameName));
+
 
         } catch (IOException | ClassNotFoundException e) {
-            return null;
         }
-        return null;
     }
 
     private int toIntInfo(byte[] byteArray) {

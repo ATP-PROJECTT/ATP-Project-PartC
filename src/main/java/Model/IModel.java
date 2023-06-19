@@ -17,5 +17,5 @@ public interface IModel {
 
     void save(SavableGame savableGame);
 
-    SavableGame load(String gameName);
+    void load(String gameName);
 }

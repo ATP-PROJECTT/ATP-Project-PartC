@@ -27,6 +27,15 @@ public class SoundController {
         regularMoveSound = getMediaPlayer("Sounds/regularMove.mp3");
         diagonalMoveSound = getMediaPlayer("Sounds/diagonalMove.mp3");
         gameMusic = getMediaPlayer("Sounds/gameBackgroundMusic.mp3");
+        backgroundMusic = getMediaPlayer("Sounds/IcyTowerSong.mp3");
+
+        backgroundMusic.setCycleCount(MediaPlayer.INDEFINITE);
+        backgroundMusic.setVolume(0.3);
+
+
+        gameMusic.setCycleCount(MediaPlayer.INDEFINITE);
+        gameMusic.setVolume(0.3);
+
         playBackgroundMusic();
     }
 
@@ -91,17 +100,17 @@ public class SoundController {
         }
     }
 
-    private void playBackgroundMusic() {
-        backgroundMusic = getMediaPlayer("Sounds/IcyTowerSong.mp3");
+    public void playBackgroundMusic() {
+        if (gameMusic != null && gameMusic.getStatus() == MediaPlayer.Status.PLAYING) {
+            gameMusic.stop();
+        }
         backgroundMusic.setAutoPlay(true);
-        backgroundMusic.setCycleCount(MediaPlayer.INDEFINITE);
         backgroundMusic.play();
     }
 
     public void changeToGameMusic(){
         backgroundMusic.stop();
         gameMusic.setAutoPlay(true);
-        gameMusic.setCycleCount(MediaPlayer.INDEFINITE);
         gameMusic.play();
     }
 

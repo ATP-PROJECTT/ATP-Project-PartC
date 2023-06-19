@@ -60,7 +60,8 @@ public class MainMenuController implements Initializable {
         loadButton.setVisible(true);
     }
 
-    public void loadMazeByName(ActionEvent actionEvent) {
+    public void loadMazeByName(ActionEvent actionEvent) throws IOException {
+        openMyViewWindow();
         MyViewModel.getInstance().loadMaze(nameForSave.getText());
     }
 }

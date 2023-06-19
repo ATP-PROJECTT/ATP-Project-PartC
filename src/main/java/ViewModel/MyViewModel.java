@@ -59,8 +59,20 @@ public class MyViewModel extends Observable implements IViewModel {
             goalCol = myMaze.getGoalPosition().getColumnIndex();
         }
         catch (ClassCastException exception){
-            solution = (Solution) arg;
-            event = "set solution";
+            try {
+                solution = (Solution) arg;
+                event = "set solution";
+            }
+            catch (ClassCastException exception2){
+                SavableGame myGame = (SavableGame) arg;
+                myMaze = (Maze) myGame.getGame();
+                int[] position = (int[]) myGame.getPosition();
+                playerRow = position[0];
+                playerCol = position[1];
+                goalRow = myMaze.getGoalPosition().getRowIndex();
+                goalCol = myMaze.getGoalPosition().getColumnIndex();
+                event = "maze generated";
+            }
         }
         this.notifyObservers(event);
     }

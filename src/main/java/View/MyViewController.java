@@ -41,6 +41,29 @@ public class MyViewController implements Initializable, Observer {
         soundController = SoundController.getInstance();
         myViewModel = MyViewModel.getInstance();
         myViewModel.addObserver(this);
+
+    }
+
+    public void setImages(){
+        String wallImagePath = getClass().getResource("Images/wall.png").toExternalForm();
+        wallImagePath = wallImagePath.substring("file:".length());// Remove the "file:" prefix present
+        mazeDisplayer.setImageFileNameWall(wallImagePath);
+
+        String passImagePath = getClass().getResource("Images/pass.png").toExternalForm();
+        passImagePath = passImagePath.substring("file:".length()); // Remove the "file:" prefix present
+        mazeDisplayer.setImageFileNamePass(passImagePath);
+
+        String playerImagePath = getClass().getResource("Images/IcyTower.png").toExternalForm();
+        playerImagePath = playerImagePath.substring("file:".length()); // Remove the "file:" prefix present
+        mazeDisplayer.setImageFileNamePlayer(playerImagePath);
+
+        String playerInGoalPath = getClass().getResource("Images/playerInSolutionPath.png").toExternalForm();
+        playerInGoalPath = playerInGoalPath.substring("file:".length()); // Remove the "file:" prefix present
+        mazeDisplayer.setImageFileNamePlayerInGoalPose(playerInGoalPath);
+
+        String solutionPassPath = getClass().getResource("Images/solutionPass.png").toExternalForm();
+        solutionPassPath = solutionPassPath.substring("file:".length()); // Remove the "file:" prefix present
+        mazeDisplayer.setImageFileNameGoal(solutionPassPath);
     }
 
     public void setMainApp(Main mainApp) {
@@ -49,6 +72,7 @@ public class MyViewController implements Initializable, Observer {
 
     @FXML
     private void goBack() {
+        soundController.playChooseSound();
         mainApp.goBackToMainMenu();
     }
 
@@ -91,26 +115,7 @@ public class MyViewController implements Initializable, Observer {
         int rows = Integer.valueOf(textField_mazeRows.getText());
         int cols = Integer.valueOf(textField_mazeColumns.getText());
 
-        String wallImagePath = getClass().getResource("Images/wall.png").toExternalForm();
-        wallImagePath = wallImagePath.substring("file:".length());// Remove the "file:" prefix present
-        mazeDisplayer.setImageFileNameWall(wallImagePath);
-
-        String passImagePath = getClass().getResource("Images/pass.png").toExternalForm();
-        passImagePath = passImagePath.substring("file:".length()); // Remove the "file:" prefix present
-        mazeDisplayer.setImageFileNamePass(passImagePath);
-
-        String playerImagePath = getClass().getResource("Images/IcyTower.png").toExternalForm();
-        playerImagePath = playerImagePath.substring("file:".length()); // Remove the "file:" prefix present
-        mazeDisplayer.setImageFileNamePlayer(playerImagePath);
-
-        String playerInGoalPath = getClass().getResource("Images/playerInSolutionPath.png").toExternalForm();
-        playerInGoalPath = playerInGoalPath.substring("file:".length()); // Remove the "file:" prefix present
-        mazeDisplayer.setImageFileNamePlayerInGoalPose(playerInGoalPath);
-
-        String solutionPassPath = getClass().getResource("Images/solutionPass.png").toExternalForm();
-        solutionPassPath = solutionPassPath.substring("file:".length()); // Remove the "file:" prefix present
-        mazeDisplayer.setImageFileNameGoal(solutionPassPath);
-
+        setImages();
         int[] mazeDimensions = {rows, cols};
         myViewModel.generateSearchableGame(mazeDimensions);
 
@@ -139,15 +144,7 @@ public class MyViewController implements Initializable, Observer {
         mazeDisplayer.requestFocus();
     }
 
-    @Override
-    public void update(Observable o, Object arg) {
-        String change = (String) arg;
-        switch (change){
-            case "maze generated" -> mazeGenerated();
-            case "set solution" -> setSolution();
-            default -> System.out.println("Not implemented change: " + change);
-        }
-    }
+
 
     private void setSolution(){
         mazeDisplayer.displaySolution(myViewModel.getSolution());
@@ -169,6 +166,7 @@ public class MyViewController implements Initializable, Observer {
     }
 
     private void mazeGenerated() {
+        setImages();
         mazeDisplayer.drawMaze(myViewModel.getMaze(), myViewModel.getGoalRow(), myViewModel.getGoalCol());
         playerMoved();
     }
@@ -188,5 +186,15 @@ public class MyViewController implements Initializable, Observer {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText("Maze saved successfully");
         alert.show();
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        String change = (String) arg;
+        switch (change){
+            case "maze generated" -> mazeGenerated();
+            case "set solution" -> setSolution();
+            default -> System.out.println("Not implemented change: " + change);
+        }
     }
 }
