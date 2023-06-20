@@ -37,6 +37,7 @@ public class MainMenuController implements Initializable {
     private void openMyViewWindow() throws IOException {
         soundController.playChooseSound();
         mainApp.openMyViewScene();
+        soundController.changeToGameMusic();
     }
 
     @FXML

@@ -47,7 +47,7 @@ public class Main extends Application {
         HelpWindowController helpWindowController = helpWindowLoader.getController();
         helpWindowController.setMainApp(this);
 
-        helpWindowScene = new Scene(myViewRoot, 700, 800);
+        helpWindowScene = new Scene(myViewRoot, 750, 750);
 
         primaryStage.setScene(helpWindowScene);
         primaryStage.setTitle("Help Window");

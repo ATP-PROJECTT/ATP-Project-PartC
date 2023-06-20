@@ -17,7 +17,7 @@ public class HelpWindowController implements Initializable {
     SoundController soundController;
     private Main mainApp;
 
-    ImageView imageView;
+
 
 
 
@@ -48,7 +48,7 @@ public class HelpWindowController implements Initializable {
 
     public void mouseOnImage(MouseEvent mouseEvent) {
         Hover();
-        imageView = (ImageView) mouseEvent.getSource();
+        ImageView imageView = (ImageView) mouseEvent.getSource();
         ScaleTransition scaleInTransition = new ScaleTransition(Duration.millis(200), imageView);
         scaleInTransition.setByX(1.3);
         scaleInTransition.setByY(1.3);
@@ -58,6 +58,7 @@ public class HelpWindowController implements Initializable {
 
     public void mouseExitFromImage(MouseEvent mouseEvent) {
         stopHoverSound();
+        ImageView imageView = (ImageView) mouseEvent.getSource();
         ScaleTransition scaleOutTransition = new ScaleTransition(Duration.millis(200), imageView);
         scaleOutTransition.setByX(-1.3);
         scaleOutTransition.setByY(-1.3);
