@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -100,6 +101,22 @@ public class MyViewController implements Initializable, Observer {
         this.updatePlayerCol.set(updatePlayerCol + "");
     }
 
+    @FXML
+    private void handleScroll(ScrollEvent event) {
+        double deltaY = event.getDeltaY();
+
+        // Zoom in
+        if (deltaY > 0) {
+            mazeDisplayer.zoomIn();
+        }
+        // Zoom out
+        else {
+            mazeDisplayer.zoomOut();
+        }
+
+        event.consume();
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         saveMazeTextArea.setVisible(false);
@@ -172,8 +189,15 @@ public class MyViewController implements Initializable, Observer {
     }
 
     public void keyPressed(KeyEvent keyEvent){
-        myViewModel.movePlayer(keyEvent);
-        playerMoved();
+        char event = myViewModel.keyPressed(keyEvent);
+        switch (event){
+            case 'R' -> {mazeDisplayer.moveScreenRight();}
+            case 'L' -> {mazeDisplayer.moveScreenLeft();}
+            case 'U' -> {mazeDisplayer.moveScreenUp();}
+            case 'D' -> {mazeDisplayer.moveScreenDown();}
+            case 'M' -> {playerMoved();}
+        }
+
     }
 
     public void Exit(ActionEvent actionEvent) {

@@ -17,6 +17,8 @@ public class Main extends Application {
     private Scene mainMenuScene;
     private Scene myViewScene;
 
+    private Scene helpWindowScene;
+
 
 
 
@@ -39,7 +41,17 @@ public class Main extends Application {
 
     }
 
+    public void openHelpWindowScene() throws IOException {
+        FXMLLoader helpWindowLoader = new FXMLLoader(getClass().getResource("HelpWindow.fxml"));
+        Parent myViewRoot = helpWindowLoader.load();
+        HelpWindowController helpWindowController = helpWindowLoader.getController();
+        helpWindowController.setMainApp(this);
 
+        helpWindowScene = new Scene(myViewRoot, 700, 800);
+
+        primaryStage.setScene(helpWindowScene);
+        primaryStage.setTitle("Help Window");
+    }
 
 
     public void openMyViewScene() throws IOException {

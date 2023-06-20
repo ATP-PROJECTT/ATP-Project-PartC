@@ -34,7 +34,7 @@
                     <Label fx:id="playerRow" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                     <Label fx:id="playerCol" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                 </GridPane>
-            <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#goBack" onMouseEntered="#playHoverSound" onMouseExited="#stopHoverSound" prefHeight="56.0" prefWidth="177.0" text="Back" />
+            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#goBack" onMouseEntered="#playHoverSound" onMouseExited="#stopHoverSound" prefHeight="56.0" prefWidth="177.0" text="Back" />
             <Button alignment="TOP_CENTER" contentDisplay="TOP" mnemonicParsing="false" onAction="#Exit" onMouseEntered="#playHoverSound" onMouseExited="#stopHoverSound" prefHeight="38.0" prefWidth="169.0" text="Exit" textAlignment="CENTER" />
             </children>
             <padding>
@@ -78,7 +78,7 @@
     <center>
         <Pane BorderPane.alignment="CENTER">
             <children>
-                <MazeDisplayer fx:id="mazeDisplayer" height="584.0" imageFileNamePlayer="./resources/images/mario.jpg" imageFileNameWall="./resources/images/wall.png" layoutX="-6.0" onKeyPressed="#keyPressed" width="584.0" />
+                <MazeDisplayer fx:id="mazeDisplayer" height="584.0" imageFileNamePlayer="./resources/images/mario.jpg" imageFileNameWall="./resources/images/wall.png" layoutX="-6.0" onKeyPressed="#keyPressed" width="584.0" onScroll="#handleScroll"/>
                 <Button fx:id="saveMazeButton" layoutX="386.0" layoutY="585.0" mnemonicParsing="false" onAction="#save" onMouseEntered="#playHoverSound" onMouseExited="#stopHoverSound" prefHeight="56.0" prefWidth="190.0" text="Save Maze" visible="false" />
             <Label fx:id="saveMazeLabel" layoutX="14.0" layoutY="589.0" prefHeight="48.0" prefWidth="169.0" text="Maze name: " />
             <TextField fx:id="saveMazeTextArea" layoutX="135.0" layoutY="585.0" prefHeight="57.0" prefWidth="236.0">

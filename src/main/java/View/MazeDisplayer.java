@@ -39,6 +39,11 @@ public class MazeDisplayer extends Canvas {
 
     private int goalCol;
 
+    private double zoomFactor = 1;
+
+    private int screenShiftX = 0;
+    private int screenShiftY = 0;
+
 
     public int getPlayerRow() {
         return playerRow;
@@ -113,6 +118,9 @@ public class MazeDisplayer extends Canvas {
         this.goalRow = goalRow;
         this.goalCol = goalCol;
         this.maze[goalRow][goalCol] = 2;
+        zoomFactor = 1;
+        screenShiftX = 0;
+        screenShiftY = 0;
         draw();
     }
 
@@ -125,8 +133,8 @@ public class MazeDisplayer extends Canvas {
 
     private void draw() {
         if(maze != null){
-            double canvasHeight = getHeight();
-            double canvasWidth = getWidth();
+            double canvasHeight = getHeight() * zoomFactor; // Apply zoomFactor
+            double canvasWidth = getWidth() * zoomFactor; // Apply zoomFactor
             int rows = maze.length;
             int cols = maze[0].length;
 
@@ -165,11 +173,11 @@ public class MazeDisplayer extends Canvas {
         }
 
 
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
+        for (int i = 0; i < rows - screenShiftY; i++) {
+            for (int j = 0; j < cols - screenShiftX; j++) {
                 double x = j * cellWidth;
                 double y = i * cellHeight;
-                switch (maze[i][j]){
+                switch (maze[i+screenShiftY][j+screenShiftX]){
 
                     case 0:
                         if(passImage != null)
@@ -195,8 +203,12 @@ public class MazeDisplayer extends Canvas {
     }
 
     private void drawPlayer(GraphicsContext graphicsContext, double cellHeight, double cellWidth, String playerImageStr) {
-        double x = getPlayerCol() * cellWidth;
-        double y = getPlayerRow() * cellHeight;
+        int playerPosAfterShiftX = playerCol - screenShiftX;
+        int playerPosAfterShiftY = playerRow - screenShiftY;
+        if(playerPosAfterShiftX < 0 || playerPosAfterShiftY < 0)
+            return;
+        double x = playerPosAfterShiftX * cellWidth;
+        double y = playerPosAfterShiftY * cellHeight;
         graphicsContext.setFill(Color.GREEN);
 
         Image playerImage = null;
@@ -237,4 +249,44 @@ public class MazeDisplayer extends Canvas {
     }
 
 
+    public void zoomIn() {
+        zoomFactor *= 1.1;
+        draw();
+    }
+
+    public void zoomOut() {
+        if (zoomFactor/1.1 < 1)
+            zoomFactor = 1;
+        else
+            zoomFactor /= 1.1;
+        draw();
+    }
+
+    public void moveScreenDown(){
+        screenShiftY ++;
+        if(screenShiftY == maze[0].length)
+            screenShiftY--;
+        draw();
+    }
+
+    public void moveScreenUp(){
+        screenShiftY --;
+        if(screenShiftY < 0)
+            screenShiftY++;
+        draw();
+    }
+
+    public void moveScreenRight(){
+        screenShiftX ++;
+        if(screenShiftX == maze.length)
+            screenShiftX--;
+        draw();
+    }
+
+    public void moveScreenLeft(){
+        screenShiftX --;
+        if(screenShiftX < 0)
+            screenShiftX++;
+        draw();
+    }
 }

@@ -64,4 +64,8 @@ public class MainMenuController implements Initializable {
         openMyViewWindow();
         MyViewModel.getInstance().loadMaze(nameForSave.getText());
     }
+
+    public void openHelpWindowScene(ActionEvent actionEvent) throws IOException {
+        mainApp.openHelpWindowScene();
+    }
 }

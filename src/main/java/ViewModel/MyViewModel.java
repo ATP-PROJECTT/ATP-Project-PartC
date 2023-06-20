@@ -2,7 +2,6 @@ package ViewModel;
 
 import Model.MyModel;
 import Model.SavableGame;
-import View.Main;
 import View.SoundController;
 import algorithms.mazeGenerators.Maze;
 import algorithms.search.Solution;
@@ -124,7 +123,7 @@ public class MyViewModel extends Observable implements IViewModel {
         return myMaze.getMyMatrix();
     }
 
-    public void movePlayer(KeyEvent keyEvent) {
+    public char keyPressed(KeyEvent keyEvent) {
         int row = playerRow;
         int col = playerCol;
         boolean diagonalMove = false;
@@ -138,10 +137,19 @@ public class MyViewModel extends Observable implements IViewModel {
             case NUMPAD7 -> {row -= 1; col -= 1; diagonalMove = true;}
             case NUMPAD1 -> {row += 1; col -= 1; diagonalMove = true;}
             case NUMPAD3 -> {row += 1; col += 1; diagonalMove = true;}
+            case D -> {return  'R';}
+            case A -> {return  'L';}
+            case W -> {return  'U';}
+            case S -> {return 'D';}
+            default -> {
+                return 'E';
+            }
+
         }
         setPlayerPosition(row, col, diagonalMove);
 
         keyEvent.consume();
+        return 'M';
     }
 
     public Solution getSolution() {
