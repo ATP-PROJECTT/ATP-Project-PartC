@@ -1,8 +1,5 @@
 package View;
 
-import javafx.fxml.FXML;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.application.Application;
         import javafx.fxml.FXMLLoader;
         import javafx.scene.Parent;
@@ -19,6 +16,10 @@ public class Main extends Application {
 
     private Scene helpWindowScene;
 
+    private Scene AboutWindowScene;
+
+    private SoundController soundController;
+
 
 
 
@@ -32,9 +33,9 @@ public class Main extends Application {
         MainMenuController mainMenuController = mainMenuLoader.getController();
         mainMenuController.setMainApp(this);
 
-        mainMenuScene = new Scene(mainMenuRoot, 900, 800);
+        mainMenuScene = new Scene(mainMenuRoot, 900, 750);
 
-        SoundController.getInstance();
+        soundController = SoundController.getInstance();
         primaryStage.setScene(mainMenuScene);
         primaryStage.setTitle("Main Menu");
         primaryStage.show();
@@ -44,13 +45,26 @@ public class Main extends Application {
     public void openHelpWindowScene() throws IOException {
         FXMLLoader helpWindowLoader = new FXMLLoader(getClass().getResource("HelpWindow.fxml"));
         Parent myViewRoot = helpWindowLoader.load();
-        HelpWindowController helpWindowController = helpWindowLoader.getController();
-        helpWindowController.setMainApp(this);
+        HelpAboutWindowController helpAboutWindowController = helpWindowLoader.getController();
+        helpAboutWindowController.setMainApp(this);
 
-        helpWindowScene = new Scene(myViewRoot, 750, 750);
+        helpWindowScene = new Scene(myViewRoot, 800, 750);
 
         primaryStage.setScene(helpWindowScene);
         primaryStage.setTitle("Help Window");
+    }
+
+    public void openAboutWindowScene() throws IOException {
+        FXMLLoader aboutWindowLoader = new FXMLLoader(getClass().getResource("AboutWindow.fxml"));
+        Parent myViewRoot = aboutWindowLoader.load();
+
+        HelpAboutWindowController helpAboutWindowController = aboutWindowLoader.getController();
+        helpAboutWindowController.setMainApp(this);
+
+        AboutWindowScene = new Scene(myViewRoot, 800, 750);
+
+        primaryStage.setScene(AboutWindowScene);
+        primaryStage.setTitle("About Window");
     }
 
 
@@ -60,10 +74,11 @@ public class Main extends Application {
         MyViewController myViewController = myViewLoader.getController();
         myViewController.setMainApp(this);
 
-        myViewScene = new Scene(myViewRoot, 900, 800);
+        myViewScene = new Scene(myViewRoot, 900, 750);
 
         primaryStage.setScene(myViewScene);
         primaryStage.setTitle("My View");
+        myViewController.setResize(myViewScene);
     }
 
     public void goBackToMainMenu() {

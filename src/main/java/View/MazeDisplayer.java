@@ -14,6 +14,7 @@ import javafx.scene.paint.Color;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -44,6 +45,13 @@ public class MazeDisplayer extends Canvas {
     private int screenShiftX = 0;
     private int screenShiftY = 0;
 
+    public int getScreenShiftX() {
+        return screenShiftX;
+    }
+
+    public int getScreenShiftY() {
+        return screenShiftY;
+    }
 
     public int getPlayerRow() {
         return playerRow;
@@ -129,6 +137,14 @@ public class MazeDisplayer extends Canvas {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText("You Win!");
         alert.show();
+    }
+
+    public double getCellWidth(){
+        return (getWidth() * zoomFactor) / maze[0].length;
+    }
+
+    public double getCellHeight(){
+        return (getHeight() * zoomFactor) / maze.length;
     }
 
     private void draw() {
@@ -224,6 +240,7 @@ public class MazeDisplayer extends Canvas {
     }
 
     public void displaySolution(Solution mazeSolution){
+
         ArrayList<AState> mazeSolutionSteps = mazeSolution.getSolutionPath();
 
         Position solutionPosition;
@@ -231,6 +248,8 @@ public class MazeDisplayer extends Canvas {
             solutionPosition = ((MazeState)mazeSolutionSteps.get(i)).getPosition();
             maze[solutionPosition.getRowIndex()][solutionPosition.getColumnIndex()] = 2;
         }
+
+
         draw();
     }
 
@@ -287,6 +306,18 @@ public class MazeDisplayer extends Canvas {
         screenShiftX --;
         if(screenShiftX < 0)
             screenShiftX++;
+        draw();
+    }
+
+    public void updateCanvasHeight(double oldSize,double newSize){
+        double val = newSize/oldSize;
+        setHeight(val*getHeight());
+        draw();
+    }
+
+    public void updateCanvasWidth(double oldSize,double newSize) {
+        double val = newSize / oldSize;
+        setWidth(val * getWidth());
         draw();
     }
 }

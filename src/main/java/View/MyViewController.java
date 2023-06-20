@@ -5,13 +5,16 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -26,16 +29,20 @@ public class MyViewController implements Initializable, Observer {
     public Button saveMazeButton;
     public TextField saveMazeTextArea;
     public Label saveMazeLabel;
+    public Pane stackPane;
     private Main mainApp;
     public TextField textField_mazeRows;
     public TextField textField_mazeColumns;
     public MazeDisplayer mazeDisplayer;
     public Label playerRow;
     public Label playerCol;
+    private boolean playerWon;
+    private boolean isMazeGenerated;
 
     StringProperty updatePlayerRow = new SimpleStringProperty();
     StringProperty updatePlayerCol = new SimpleStringProperty();
     SoundController soundController;
+
 
     MyViewModel myViewModel;
     public MyViewController(){
@@ -74,6 +81,7 @@ public class MyViewController implements Initializable, Observer {
     @FXML
     private void goBack() {
         soundController.playChooseSound();
+        soundController.playBackgroundMusic();
         mainApp.goBackToMainMenu();
     }
 
@@ -140,7 +148,7 @@ public class MyViewController implements Initializable, Observer {
         saveMazeTextArea.setVisible(true);
         saveMazeLabel.setVisible(true);
 
-        soundController.changeToGameMusic();
+
     }
 
     public void solveMaze(ActionEvent actionEvent) {
@@ -169,6 +177,7 @@ public class MyViewController implements Initializable, Observer {
 
     private void playerMoved() {
         if(myViewModel.gotToGoalPoint()) {
+            playerWon = true;
             mazeDisplayer.playerWin();
             soundController.playWinSound();
         }
@@ -184,11 +193,15 @@ public class MyViewController implements Initializable, Observer {
 
     private void mazeGenerated() {
         setImages();
+        playerWon = false;
+        isMazeGenerated = true;
+        soundController.changeToGameMusic();
         mazeDisplayer.drawMaze(myViewModel.getMaze(), myViewModel.getGoalRow(), myViewModel.getGoalCol());
         playerMoved();
     }
 
     public void keyPressed(KeyEvent keyEvent){
+        if((!isMazeGenerated) || playerWon) return;
         char event = myViewModel.keyPressed(keyEvent);
         switch (event){
             case 'R' -> {mazeDisplayer.moveScreenRight();}
@@ -221,4 +234,35 @@ public class MyViewController implements Initializable, Observer {
             default -> System.out.println("Not implemented change: " + change);
         }
     }
+
+    public void makeHint(ActionEvent actionEvent) {
+        soundController.playChooseSound();
+        myViewModel.makeHint();
+    }
+
+    public void setResize(Scene scene) {
+        scene.widthProperty().addListener((observable, oldValue, newValue) -> {
+            //mazeDisplayer.widthProperty().bind(stackpane.widthProperty());
+            mazeDisplayer.updateCanvasWidth((double)oldValue,(double)newValue);
+
+        });
+        scene.heightProperty().addListener((observable, oldValue, newValue) -> {
+            //mazeDisplayer.heightProperty().bind(stackpane.heightProperty());
+            mazeDisplayer.updateCanvasHeight((double)oldValue,(double)newValue);
+        });
+    }
+
+    public void moveCharacter(MouseEvent mouseEvent)
+    {
+        if((!isMazeGenerated) || playerWon) return;
+        double mouseX = mouseEvent.getX();
+        double mouseY = mouseEvent.getY();
+
+        int row = (int) ((mouseY + mazeDisplayer.getScreenShiftY() *  mazeDisplayer.getCellHeight())/ mazeDisplayer.getCellHeight());
+        int col = (int) ((mouseX + mazeDisplayer.getScreenShiftX() * mazeDisplayer.getCellWidth()) / mazeDisplayer.getCellWidth());
+
+        myViewModel.updateCharacterLocationByMouse(row,col);
+        playerMoved();
+    }
+
 }

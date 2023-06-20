@@ -4,19 +4,27 @@ import Model.MyModel;
 import Model.SavableGame;
 import View.SoundController;
 import algorithms.mazeGenerators.Maze;
+import algorithms.search.AState;
 import algorithms.search.Solution;
+import javafx.scene.control.Alert;
 import javafx.scene.input.KeyEvent;
 
+import java.util.ArrayList;
 import java.util.Observable;
+import java.util.Random;
 
 public class MyViewModel extends Observable implements IViewModel {
 
     private SoundController soundController;
     MyModel myModel;
+    private boolean playerAskForHint;
 
     public Maze myMaze;
 
-    public Solution solution;
+    private Solution solution;
+
+    private ArrayList<AState> fullSolutionPathCopy;
+    private ArrayList<AState> solutionPath;
 
     private int playerRow;
     private int playerCol;
@@ -56,10 +64,16 @@ public class MyViewModel extends Observable implements IViewModel {
             playerCol = myMaze.getStartPosition().getColumnIndex();
             goalRow = myMaze.getGoalPosition().getRowIndex();
             goalCol = myMaze.getGoalPosition().getColumnIndex();
+            playerAskForHint = false;
+            solution = null;
         }
         catch (ClassCastException exception){
             try {
                 solution = (Solution) arg;
+                solutionPath = solution.getSolutionPath();
+                fullSolutionPathCopy = new ArrayList<>();
+                fullSolutionPathCopy.addAll(solutionPath);
+                solutionPath.clear();
                 event = "set solution";
             }
             catch (ClassCastException exception2){
@@ -71,6 +85,8 @@ public class MyViewModel extends Observable implements IViewModel {
                 goalRow = myMaze.getGoalPosition().getRowIndex();
                 goalCol = myMaze.getGoalPosition().getColumnIndex();
                 event = "maze generated";
+                playerAskForHint = false;
+                solution = null;
             }
         }
         this.notifyObservers(event);
@@ -83,8 +99,21 @@ public class MyViewModel extends Observable implements IViewModel {
 
     @Override
     public void solve() {
-        if(myMaze != null)
-            myModel.solve(myMaze);
+        if(myMaze == null){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText("Generate maze first");
+            alert.show();
+            return;
+        }
+        if(solution != null){
+            playerAskForHint = false;
+            this.setChanged();
+            this.notifyObservers("set solution");
+            return;
+        }
+
+        playerAskForHint = false;
+        myModel.solve(myMaze);
     }
 
     @Override
@@ -153,6 +182,22 @@ public class MyViewModel extends Observable implements IViewModel {
     }
 
     public Solution getSolution() {
+        if(playerAskForHint){
+            if(solutionPath.size() == fullSolutionPathCopy.size()) return solution;
+
+            Random random = new Random();
+            int randomIndex = random.nextInt(fullSolutionPathCopy.size());
+            AState aState = fullSolutionPathCopy.get(randomIndex);
+            while (solutionPath.contains(aState)){
+                randomIndex = random.nextInt(fullSolutionPathCopy.size());
+                aState = fullSolutionPathCopy.get(randomIndex);
+            }
+            solutionPath.add(aState);
+        }
+        else {
+            solutionPath.clear();
+            solutionPath.addAll(fullSolutionPathCopy);
+        }
         return solution;
     }
 
@@ -162,5 +207,34 @@ public class MyViewModel extends Observable implements IViewModel {
 
     public int getGoalCol() {
         return goalCol;
+    }
+
+    public void makeHint() {
+
+        if(myMaze == null){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText("Generate maze first");
+            alert.show();
+            return;
+        }
+        if(solution != null){
+            this.setChanged();
+            this.notifyObservers("set solution");
+            return;
+        }
+
+        playerAskForHint = true;
+        myModel.solve(myMaze);
+
+    }
+
+
+    public void updateCharacterLocationByMouse(int row, int col) {
+        boolean moreThenOneStep = Math.abs(row - playerRow) > 1 || Math.abs(col - playerCol) > 1;
+        boolean playerDoesntMove = row == playerRow && col == playerCol;
+        if(moreThenOneStep || playerDoesntMove) return;
+
+        boolean diagonal = Math.abs(row - playerRow) == 1 && Math.abs(col - playerCol) == 1;
+        setPlayerPosition(row, col,diagonal);
     }
 }

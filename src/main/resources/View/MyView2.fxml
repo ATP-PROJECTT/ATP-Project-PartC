@@ -30,7 +30,7 @@
                   <Button mnemonicParsing="false" onAction="#loadMaze" onMouseEntered="#playHoverSound" onMouseExited="#stopHoverSound" prefHeight="56.0" prefWidth="280.0" text="Load Maze" GridPane.rowIndex="1" />
                   <Button mnemonicParsing="false" onMouseEntered="#playHoverSound" onMouseExited="#stopHoverSound" prefHeight="56.0" prefWidth="280.0" text="Properties" GridPane.rowIndex="2" />
                   <Button onAction="#openHelpWindowScene" mnemonicParsing="false" onMouseEntered="#playHoverSound" onMouseExited="#stopHoverSound" prefHeight="56.0" prefWidth="280.0" text="Help" GridPane.rowIndex="3" />
-                  <Button mnemonicParsing="false" onMouseEntered="#playHoverSound" onMouseExited="#stopHoverSound" prefHeight="56.0" prefWidth="280.0" text="About" GridPane.rowIndex="4" />
+                  <Button onAction="#openAboutWindowScene" mnemonicParsing="false" onMouseEntered="#playHoverSound" onMouseExited="#stopHoverSound" prefHeight="56.0" prefWidth="280.0" text="About" GridPane.rowIndex="4" />
                   <Button mnemonicParsing="false" onAction="#exit" onMouseEntered="#playHoverSound" onMouseExited="#stopHoverSound" prefHeight="56.0" prefWidth="280.0" text="Exit" GridPane.rowIndex="5" />
                   <TextField fx:id="nameForSave" prefHeight="56.0" prefWidth="253.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                   <Label fx:id="saveLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="27.0" prefWidth="106.0" text="Maze Name:" GridPane.columnIndex="1" GridPane.rowIndex="1" />

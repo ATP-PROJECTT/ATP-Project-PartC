@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="763.0" prefWidth="750.0" stylesheets="@MenuStyle.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.HelpAboutWindowController">
+   <children>
+      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="681.0" mnemonicParsing="false" onAction="#goBack" onMouseEntered="#Hover" onMouseExited="#stopHoverSound" prefHeight="56.0" prefWidth="177.0" text="Back" />
+      <GridPane layoutX="1.0" layoutY="79.0" prefHeight="561.0" prefWidth="795.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="277.40001525878904" minHeight="0.0" prefHeight="61.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="277.40001525878904" minHeight="10.0" prefHeight="34.99999999999999" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="277.40001525878904" minHeight="10.0" prefHeight="104.20000000000002" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="277.40001525878904" minHeight="0.0" prefHeight="39.00001525878906" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="277.40001525878904" minHeight="10.0" prefHeight="53.39999999999998" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="277.40001525878904" minHeight="10.0" prefHeight="53.39999999999998" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="277.40001525878904" minHeight="10.0" prefHeight="52.400000000000034" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="277.40001525878904" minHeight="10.0" prefHeight="50.400000000000034" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="326.2" minHeight="10.0" prefHeight="53.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="443.4" minHeight="10.0" prefHeight="90.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label contentDisplay="CENTER" prefHeight="54.0" prefWidth="795.0" text="This maze game created as part of a course on advanced topics in programming at Ben Gurion University." textAlignment="CENTER" wrapText="true" />
+            <Label alignment="CENTER" prefHeight="27.0" prefWidth="787.0" text="The game was developed by Alon Azran and Yehonatan Kidushim." textAlignment="CENTER" GridPane.rowIndex="1" />
+            <Label alignment="CENTER" prefHeight="27.0" prefWidth="785.0" text="When you click on &quot;Generate maze&quot;, we use Prim's algorithm to create the maze." textAlignment="CENTER" GridPane.rowIndex="2" />
+            <Label alignment="CENTER" prefHeight="27.0" prefWidth="786.0" text="When you click on &quot;Solve maze&quot;, we use 3 search algorithms for your choice." textAlignment="CENTER" GridPane.rowIndex="3" />
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="27.0" prefWidth="781.0" text="Best First Search - Chooses the most efficient solution by first choosing the diagonals." textAlignment="CENTER" GridPane.rowIndex="4" />
+            <Label alignment="CENTER" prefHeight="27.0" prefWidth="787.0" text="BFS - Chooses the solution that will bring the shortest route." textAlignment="CENTER" GridPane.rowIndex="5" />
+            <Label alignment="CENTER" prefHeight="27.0" prefWidth="792.0" text="DFS - Chooses the solution without special dependence." GridPane.rowIndex="6" />
+            <Label alignment="CENTER" prefHeight="27.0" prefWidth="783.0" text="good luck in the game!" textAlignment="CENTER" GridPane.rowIndex="7" />
+            <Label alignment="CENTER" prefHeight="27.0" prefWidth="786.0" text="Hope you can beat the maze." GridPane.rowIndex="8" />
+            <Label alignment="CENTER" prefHeight="27.0" prefWidth="784.0" text="Regards, developer team." GridPane.rowIndex="9" />
+         </children>
+      </GridPane>
+   </children>
+</AnchorPane>

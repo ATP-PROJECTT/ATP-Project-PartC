@@ -11,10 +11,11 @@
 
 
 Button  {
-    -fx-font-family: 'Icy Tower Font';
     -fx-text-fill: linear-gradient(to right, #fc0404, #00ff00);
     -fx-font-weight: bold;
     -fx-font-size: 26;
+    -fx-text-stroke: white;
+    -fx-text-stroke-width: 4px;
     -fx-background-image: url('images/floorBackround.png');
     -fx-background-size: contain;
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.6), 5, 0.0, 0, 1);
@@ -27,6 +28,7 @@ Button:hover {
 }
 
 Label {
+    -fx-effect: dropshadow(one-pass-box, white, 2, 1, 0, 0);
     -fx-font-size: 18;
     -fx-text-fill: linear-gradient(to right, #fc0404, #00ff00);
     -fx-font-weight: bold;

@@ -8,34 +8,36 @@
 
 <BorderPane onMouseClicked="#mouseClicked" prefHeight="562.0" prefWidth="593.0" stylesheets="@MenuStyle.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MyViewController">
     <left>
-        <VBox prefHeight="200.0" prefWidth="178.0" spacing="5.0" BorderPane.alignment="CENTER">
+        <VBox prefHeight="554.0" prefWidth="239.0" spacing="5.0" BorderPane.alignment="CENTER">
             <children>
-                <GridPane alignment="TOP_CENTER" prefHeight="396.0" prefWidth="169.0">
+                <GridPane alignment="TOP_CENTER" prefHeight="396.0" prefWidth="230.0">
                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="139.8" minWidth="10.0" prefWidth="126.99999999999999" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="79.0" minWidth="10.0" prefWidth="41.400000000000006" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="158.8" minWidth="10.0" prefWidth="156.8" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="79.0" minWidth="10.0" prefWidth="67.19999999999999" />
                     </columnConstraints>
                     <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="40.39999618530273" minHeight="10.0" prefHeight="40.39999618530273" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="135.4000152587891" minHeight="10.0" prefHeight="109.4" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="183.0" minHeight="10.0" prefHeight="103.4" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="114.0" minHeight="3.3999999999999773" prefHeight="35.39999999999998" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="47.4" minHeight="10.0" prefHeight="44.6" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="68.99999237060547" minHeight="10.0" prefHeight="46.2" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="135.4000152587891" minHeight="10.0" prefHeight="76.80000000000001" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="183.0" minHeight="0.0" prefHeight="67.4" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="183.0" minHeight="2.5999847412109034" prefHeight="81.4" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="114.0" minHeight="3.3999999999999773" prefHeight="20.600000000000023" vgrow="SOMETIMES" />
                         <RowConstraints maxHeight="120.0" minHeight="10.0" prefHeight="34.60000000000002" vgrow="SOMETIMES" />
                     </rowConstraints>
                     <Label text="Maze rows:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
                     <Label text="Maze columns:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                    <TextField fx:id="textField_mazeRows" text="50" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-                    <TextField fx:id="textField_mazeColumns" text="50" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                    <Button alignment="TOP_CENTER" contentDisplay="TOP" lineSpacing="1.0" onAction="#generateMaze" onMouseEntered="#playHoverSound" onMouseExited="#stopHoverSound" prefHeight="95.0" prefWidth="167.0" text="Generate Maze" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="2" />
-                    <Button alignment="TOP_CENTER" cancelButton="true" contentDisplay="TOP" onAction="#solveMaze" onMouseEntered="#playHoverSound" onMouseExited="#stopHoverSound" prefHeight="94.0" prefWidth="167.0" text="Solve Maze" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="3" />
-                    <Label text="Player Row = " GridPane.rowIndex="4" />
-                    <Label text="Player Col = " GridPane.rowIndex="5" />
-                    <Label fx:id="playerRow" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                    <Label fx:id="playerCol" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                    <TextField fx:id="textField_mazeRows" alignment="CENTER" prefHeight="40.0" prefWidth="63.0" text="50" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                    <TextField fx:id="textField_mazeColumns" alignment="CENTER" text="50" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                    <Button alignment="TOP_CENTER" contentDisplay="TOP" lineSpacing="1.0" onAction="#generateMaze" onMouseEntered="#playHoverSound" onMouseExited="#stopHoverSound" prefHeight="42.0" prefWidth="224.0" text="Generate Maze" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="2" />
+                    <Button alignment="TOP_CENTER" contentDisplay="TOP" lineSpacing="1.0" onAction="#makeHint" onMouseEntered="#playHoverSound" onMouseExited="#stopHoverSound" prefHeight="0.0" prefWidth="224.0" text="Make Hint" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="3" />
+                    <Button alignment="TOP_CENTER" cancelButton="true" contentDisplay="TOP" onAction="#solveMaze" onMouseEntered="#playHoverSound" onMouseExited="#stopHoverSound" prefHeight="45.0" prefWidth="224.0" text="Solve Maze" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="4" />
+                    <Label text="Player Row = " GridPane.rowIndex="5" />
+                    <Label text="Player Col = " GridPane.rowIndex="6" />
+                    <Label fx:id="playerRow" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                    <Label fx:id="playerCol" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                 </GridPane>
-            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#goBack" onMouseEntered="#playHoverSound" onMouseExited="#stopHoverSound" prefHeight="56.0" prefWidth="177.0" text="Back" />
-            <Button alignment="TOP_CENTER" contentDisplay="TOP" mnemonicParsing="false" onAction="#Exit" onMouseEntered="#playHoverSound" onMouseExited="#stopHoverSound" prefHeight="38.0" prefWidth="169.0" text="Exit" textAlignment="CENTER" />
+            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#goBack" onMouseEntered="#playHoverSound" onMouseExited="#stopHoverSound" prefHeight="62.0" prefWidth="224.0" text="Back" />
+            <Button alignment="TOP_CENTER" contentDisplay="TOP" mnemonicParsing="false" onAction="#Exit" onMouseEntered="#playHoverSound" onMouseExited="#stopHoverSound" prefHeight="64.0" prefWidth="224.0" text="Exit" textAlignment="CENTER" />
             </children>
             <padding>
                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -50,35 +52,12 @@
         </HBox>
     </bottom>
     <top>
-        <VBox BorderPane.alignment="CENTER">
-            <children>
-                <MenuBar>
-                    <menus>
-                        <Menu mnemonicParsing="false" text="File">
-                            <items>
-                                <MenuItem mnemonicParsing="false" onAction="#openFile" text="Open" />
-                                <MenuItem mnemonicParsing="false" text="Close" />
-                            </items>
-                        </Menu>
-                        <Menu mnemonicParsing="false" text="Edit">
-                            <items>
-                                <MenuItem mnemonicParsing="false" text="Delete" />
-                            </items>
-                        </Menu>
-                        <Menu mnemonicParsing="false" text="Help">
-                            <items>
-                                <MenuItem mnemonicParsing="false" text="About" />
-                            </items>
-                        </Menu>
-                    </menus>
-                </MenuBar>
-            </children>
-        </VBox>
+        <VBox BorderPane.alignment="CENTER" />
     </top>
     <center>
-        <Pane BorderPane.alignment="CENTER">
+        <Pane fx:id="stackPane" BorderPane.alignment="CENTER">
             <children>
-                <MazeDisplayer fx:id="mazeDisplayer" height="584.0" imageFileNamePlayer="./resources/images/mario.jpg" imageFileNameWall="./resources/images/wall.png" layoutX="-6.0" onKeyPressed="#keyPressed" width="584.0" onScroll="#handleScroll"/>
+                <MazeDisplayer fx:id="mazeDisplayer" height="582.0" imageFileNamePlayer="./resources/images/mario.jpg" imageFileNameWall="./resources/images/wall.png" layoutX="-6.0" onKeyPressed="#keyPressed" onScroll="#handleScroll" width="584.0" onMouseMoved="#moveCharacter"/>
                 <Button fx:id="saveMazeButton" layoutX="386.0" layoutY="585.0" mnemonicParsing="false" onAction="#save" onMouseEntered="#playHoverSound" onMouseExited="#stopHoverSound" prefHeight="56.0" prefWidth="190.0" text="Save Maze" visible="false" />
             <Label fx:id="saveMazeLabel" layoutX="14.0" layoutY="589.0" prefHeight="48.0" prefWidth="169.0" text="Maze name: " />
             <TextField fx:id="saveMazeTextArea" layoutX="135.0" layoutY="585.0" prefHeight="57.0" prefWidth="236.0">
