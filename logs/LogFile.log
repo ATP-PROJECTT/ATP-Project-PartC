@@ -1,35 +1,4 @@
-2023-06-18 06:32:09,007 [JavaFX Application Thread] INFO  Model.MyModel - hi
-2023-06-18 06:33:06,218 [JavaFX Application Thread] INFO  Model.MyModel - hi
-2023-06-18 15:28:17,009 [JavaFX Application Thread] INFO  Model.MyModel - hi
-2023-06-18 18:48:26,258 [JavaFX Application Thread] INFO  Model.MyModel - hi
-2023-06-19 17:25:28,891 [JavaFX Application Thread] INFO  Model.MyModel - hi
-2023-06-19 22:26:30,984 [JavaFX Application Thread] INFO  Model.MyModel - hi
-2023-06-19 22:34:17,600 [JavaFX Application Thread] INFO  Model.MyModel - hi
-2023-06-19 22:35:01,989 [JavaFX Application Thread] INFO  Model.MyModel - hi
-2023-06-19 22:38:50,284 [JavaFX Application Thread] INFO  Model.MyModel - hi
-2023-06-19 22:42:07,110 [JavaFX Application Thread] INFO  Model.MyModel - hi
-2023-06-19 22:42:27,645 [JavaFX Application Thread] INFO  Model.MyModel - hi
-2023-06-19 22:45:20,234 [JavaFX Application Thread] INFO  Model.MyModel - hi
-2023-06-19 22:45:44,129 [JavaFX Application Thread] INFO  Model.MyModel - hi
-2023-06-19 22:46:55,173 [JavaFX Application Thread] INFO  Model.MyModel - hi
-2023-06-19 22:48:38,775 [JavaFX Application Thread] INFO  Model.MyModel - hi
-2023-06-19 22:50:35,420 [JavaFX Application Thread] INFO  Model.MyModel - hi
-2023-06-19 22:57:04,117 [JavaFX Application Thread] INFO  Model.MyModel - hi
-2023-06-19 22:57:51,933 [JavaFX Application Thread] INFO  Model.MyModel - hi
-2023-06-19 23:25:44,226 [JavaFX Application Thread] INFO  Model.MyModel - hi
-2023-06-19 23:54:27,446 [JavaFX Application Thread] INFO  Model.MyModel - hi
-2023-06-20 00:01:52,322 [JavaFX Application Thread] INFO  Model.MyModel - hi
-2023-06-20 00:11:33,110 [JavaFX Application Thread] INFO  Model.MyModel - hi
-2023-06-20 00:15:15,417 [JavaFX Application Thread] INFO  Model.MyModel - hi
-2023-06-20 00:21:42,932 [JavaFX Application Thread] INFO  Model.MyModel - hi
-2023-06-20 00:23:29,357 [JavaFX Application Thread] INFO  Model.MyModel - hi
-2023-06-20 00:34:57,613 [JavaFX Application Thread] INFO  Model.MyModel - hi
-2023-06-20 00:40:54,443 [JavaFX Application Thread] INFO  Model.MyModel - hi
-2023-06-20 00:44:18,097 [JavaFX Application Thread] INFO  Model.MyModel - hi
-2023-06-20 00:46:11,708 [JavaFX Application Thread] INFO  Model.MyModel - hi
-2023-06-20 00:54:26,755 [JavaFX Application Thread] INFO  Model.MyModel - hi
-2023-06-20 00:57:16,859 [JavaFX Application Thread] INFO  Model.MyModel - hi
-2023-06-20 00:58:46,330 [JavaFX Application Thread] INFO  Model.MyModel - hi
-2023-06-20 01:06:40,067 [JavaFX Application Thread] INFO  Model.MyModel - hi
-2023-06-20 01:07:28,346 [JavaFX Application Thread] INFO  Model.MyModel - hi
-2023-06-20 03:22:43,241 [JavaFX Application Thread] INFO  Model.MyModel - hi
+2023-06-20 09:03:10,096 [JavaFX Application Thread] INFO  Model.MyModel - A request to create a maze
+2023-06-20 09:03:14,458 [JavaFX Application Thread] INFO  Model.MyModel - A request to create a maze
+2023-06-20 09:03:28,662 [JavaFX Application Thread] INFO  Model.MyModel - A request to create a maze
+2023-06-20 09:03:29,565 [JavaFX Application Thread] INFO  Model.MyModel - A request to solve a maze

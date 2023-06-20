@@ -41,7 +41,7 @@ public class MyModel extends Observable implements IModel {
             Client client = new Client(InetAddress.getLocalHost(), 5400,  new IClientStrategy() {
                 public void clientStrategy(InputStream inFromServer, OutputStream outToServer) {
                     try {
-                        logger.info("hi");
+                        logger.info("A request to create a maze");
                         int[] mazeDimensions = curMazeDimensions;
                         ObjectOutputStream toServer = new ObjectOutputStream(outToServer);
                         ObjectInputStream fromServer = new ObjectInputStream(inFromServer);
@@ -84,6 +84,7 @@ public class MyModel extends Observable implements IModel {
             Client client = new Client(InetAddress.getLocalHost(), 5401, new IClientStrategy() {
                 public void clientStrategy(InputStream inFromServer, OutputStream outToServer) {
                     try {
+                        logger.info("A request to solve a maze");
                         ObjectOutputStream toServer = new ObjectOutputStream(outToServer);
                         ObjectInputStream fromServer = new ObjectInputStream(inFromServer);
                         toServer.writeObject(maze);
