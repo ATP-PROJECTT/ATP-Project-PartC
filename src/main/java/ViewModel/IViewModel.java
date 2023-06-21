@@ -10,7 +10,8 @@ public interface IViewModel extends Observer {
     void generateSearchableGame(Object gameDetails);
     void solve();
 
-    int getPlayerRow();
+    void load(String fileName);
 
-    int getPlayerCol();
+    void save(String fileName);
+
 }

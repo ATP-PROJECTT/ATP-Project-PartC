@@ -53,18 +53,23 @@ public class MainMenuController implements Initializable {
         System.exit(0);
     }
 
-    public void loadMaze(ActionEvent actionEvent) {
+    public void loadMazeButton(ActionEvent actionEvent) {
         soundController.playChooseSound();
         saveLabel.setVisible(true);
         nameForSave.setVisible(true);
         loadButton.setVisible(true);
     }
 
-    public void loadMazeByName(ActionEvent actionEvent) throws IOException {
-        openMyViewWindow();
+    public void loadGame(ActionEvent actionEvent) {
+        try {
+            openMyViewWindow();
+        }
+        catch (IOException e){
+            MyViewModel.getInstance().makeAlert("couldn't open the window");
+        }
         String name = nameForSave.getText();
         if (MyViewController.containsOnlyNumbersOrLetters(name)) {
-            MyViewModel.getInstance().loadMaze(name);
+            MyViewModel.getInstance().load(name);
         }
         else
             MyViewModel.getInstance().makeAlert("Name should contains only letters and numbers");

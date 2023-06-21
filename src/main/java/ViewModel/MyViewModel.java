@@ -49,6 +49,7 @@ public class MyViewModel extends Observable implements IViewModel {
         return myViewModel;
     }
 
+    @Override
     public void generateSearchableGame(Object mazeDimensions){
         myModel.requestBoard(mazeDimensions);
     }
@@ -98,6 +99,7 @@ public class MyViewModel extends Observable implements IViewModel {
         this.notifyObservers(event);
     }
 
+    @Override
     public void save(String name){
         int[] playerPosition = {playerRow,playerCol};
         myModel.save(new SavableGame(myMaze,playerPosition,name));
@@ -120,12 +122,12 @@ public class MyViewModel extends Observable implements IViewModel {
         myModel.solve(myMaze);
     }
 
-    @Override
+
     public int getPlayerRow() {
         return playerRow;
     }
 
-    @Override
+
     public int getPlayerCol() {
         return playerCol;
     }
@@ -144,7 +146,8 @@ public class MyViewModel extends Observable implements IViewModel {
         }
     }
 
-    public void loadMaze(String gameName){
+    @Override
+    public void load(String gameName){
         myModel.load(gameName);
     }
 

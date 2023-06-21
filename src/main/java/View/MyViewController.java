@@ -4,6 +4,7 @@ import ViewModel.MyViewModel;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -13,9 +14,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
-import javafx.stage.FileChooser;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Observable;
@@ -23,7 +22,7 @@ import java.util.Observer;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 
-public class MyViewController implements Initializable, Observer {
+public class MyViewController implements Initializable, Observer, IView {
 
     public Button saveMazeButton;
     public TextField saveMazeTextArea;
@@ -133,7 +132,7 @@ public class MyViewController implements Initializable, Observer {
         playerCol.textProperty().bind(updatePlayerCol);
     }
 
-    public void generateMaze(ActionEvent actionEvent) {
+    public void generateGame(ActionEvent actionEvent) {
         soundController.playChooseSound();
 
         String rowsStr = textField_mazeRows.getText();
@@ -160,15 +159,6 @@ public class MyViewController implements Initializable, Observer {
     public void solveMaze(ActionEvent actionEvent) {
         soundController.playChooseSound();
         myViewModel.solve();
-    }
-
-    public void openFile(ActionEvent actionEvent) {
-        FileChooser fc = new FileChooser();
-        fc.setTitle("Open maze");
-        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Maze files (*.maze)", "*.maze"));
-        fc.setInitialDirectory(new File("./resources"));
-        File chosen = fc.showOpenDialog(null);
-        //...
     }
 
     public void mouseClicked(MouseEvent mouseEvent) {
@@ -262,8 +252,10 @@ public class MyViewController implements Initializable, Observer {
         });
     }
 
-    public void moveCharacter(MouseEvent mouseEvent)
+    @Override
+    public void moveCharacter(Event event)
     {
+        MouseEvent mouseEvent = (MouseEvent) event;
         if((!isMazeGenerated) || playerWon) return;
         double mouseX = mouseEvent.getX();
         double mouseY = mouseEvent.getY();
