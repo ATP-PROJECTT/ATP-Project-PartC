@@ -12,10 +12,9 @@ import java.io.*;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
-import java.util.Observer;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -25,7 +24,6 @@ public class MyModel extends Observable implements IModel {
     private static final Logger logger = LogManager.getLogger(MyModel.class);
     Server mazeGeneratingServer;
     Server solveSearchProblemServer;
-    Maze curMaze;
     int[] curMazeDimensions;
 
     public MyModel(){
@@ -178,6 +176,10 @@ public class MyModel extends Observable implements IModel {
         try {
             String path = getPath(gameName);
             File newFile = new File(path);
+            if(!newFile.exists()){
+                notifyViewModel("file not found");
+                return;
+            }
             FileInputStream fileInputStream = new FileInputStream(newFile);
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
             List<Byte> decompressed = MyDecompressorInputStream.decompress((byte[]) objectInputStream.readObject());
@@ -229,5 +231,11 @@ public class MyModel extends Observable implements IModel {
     }
 
 
+    public void setSearchingAlgorithm(String searchingAlgorithm) {
+        Configurations.getInstance().setISearchingAlgorithm(searchingAlgorithm);
+    }
 
+    public void setMazeGenerator(String mazeGenerator) {
+        Configurations.getInstance().setIMazeGenerator(mazeGenerator);
+    }
 }

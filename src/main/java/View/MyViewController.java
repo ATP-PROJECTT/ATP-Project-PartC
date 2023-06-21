@@ -6,18 +6,17 @@ import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
@@ -137,17 +136,24 @@ public class MyViewController implements Initializable, Observer {
     public void generateMaze(ActionEvent actionEvent) {
         soundController.playChooseSound();
 
-        int rows = Integer.valueOf(textField_mazeRows.getText());
-        int cols = Integer.valueOf(textField_mazeColumns.getText());
+        String rowsStr = textField_mazeRows.getText();
+        String colsStr = textField_mazeColumns.getText();
 
-        setImages();
-        int[] mazeDimensions = {rows, cols};
-        myViewModel.generateSearchableGame(mazeDimensions);
+        if(containsOnlyNumbers(rowsStr) && containsOnlyNumbers(colsStr)){
+            int rows = Integer.valueOf(rowsStr);
+            int cols = Integer.valueOf(colsStr);
 
-        saveMazeButton.setVisible(true);
-        saveMazeTextArea.setVisible(true);
-        saveMazeLabel.setVisible(true);
+            setImages();
+            int[] mazeDimensions = {rows, cols};
+            myViewModel.generateSearchableGame(mazeDimensions);
 
+            saveMazeButton.setVisible(true);
+            saveMazeTextArea.setVisible(true);
+            saveMazeLabel.setVisible(true);
+        }
+        else{
+            myViewModel.makeAlert("Maze dimensions need to contain only numbers");
+        }
 
     }
 
@@ -219,10 +225,13 @@ public class MyViewController implements Initializable, Observer {
     }
 
     public void save(ActionEvent actionEvent) {
-        myViewModel.save(saveMazeTextArea.getText());
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setContentText("Maze saved successfully");
-        alert.show();
+        String fileName = saveMazeTextArea.getText();
+        if(containsOnlyNumbersOrLetters(fileName)) {
+            myViewModel.save(fileName);
+            myViewModel.makeAlert("Maze saved successfully");
+        }
+        else
+            myViewModel.makeAlert("Maze name need to contain only numbers and letters");
     }
 
     @Override
@@ -231,6 +240,7 @@ public class MyViewController implements Initializable, Observer {
         switch (change){
             case "maze generated" -> mazeGenerated();
             case "set solution" -> setSolution();
+            case "file not found" -> {myViewModel.makeAlert("Maze not found"); goBack();}
             default -> System.out.println("Not implemented change: " + change);
         }
     }
@@ -265,4 +275,26 @@ public class MyViewController implements Initializable, Observer {
         playerMoved();
     }
 
+    public static boolean containsOnlyNumbersOrLetters(String input) {
+        return input.matches("[a-zA-Z0-9]+");
+    }
+
+    public static boolean containsOnlyNumbers(String input) {
+        return input.matches("[0-9]+");
+    }
+
+    public void openProperties(ActionEvent actionEvent) throws IOException {
+        PropertiesHelpAboutController.openedFromMazeWindow = true;
+        mainApp.openPropertiesWindowScene();
+    }
+
+    public void openHelp(ActionEvent actionEvent) throws IOException {
+        PropertiesHelpAboutController.openedFromMazeWindow = true;
+        mainApp.openHelpWindowScene();
+    }
+
+    public void openAbout(ActionEvent actionEvent) throws IOException {
+        PropertiesHelpAboutController.openedFromMazeWindow = true;
+        mainApp.openAboutWindowScene();
+    }
 }

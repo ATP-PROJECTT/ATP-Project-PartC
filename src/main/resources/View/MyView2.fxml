@@ -28,7 +28,7 @@
                <children>
                   <Button onAction="#openMyViewWindow" onMouseEntered="#playHoverSound" onMouseExited="#stopHoverSound" prefHeight="56.0" prefWidth="280.0" text="Create New Maze" />
                   <Button mnemonicParsing="false" onAction="#loadMaze" onMouseEntered="#playHoverSound" onMouseExited="#stopHoverSound" prefHeight="56.0" prefWidth="280.0" text="Load Maze" GridPane.rowIndex="1" />
-                  <Button mnemonicParsing="false" onMouseEntered="#playHoverSound" onMouseExited="#stopHoverSound" prefHeight="56.0" prefWidth="280.0" text="Properties" GridPane.rowIndex="2" />
+                  <Button onAction="#openPropertiesWindowScene" mnemonicParsing="false" onMouseEntered="#playHoverSound" onMouseExited="#stopHoverSound" prefHeight="56.0" prefWidth="280.0" text="Properties" GridPane.rowIndex="2" />
                   <Button onAction="#openHelpWindowScene" mnemonicParsing="false" onMouseEntered="#playHoverSound" onMouseExited="#stopHoverSound" prefHeight="56.0" prefWidth="280.0" text="Help" GridPane.rowIndex="3" />
                   <Button onAction="#openAboutWindowScene" mnemonicParsing="false" onMouseEntered="#playHoverSound" onMouseExited="#stopHoverSound" prefHeight="56.0" prefWidth="280.0" text="About" GridPane.rowIndex="4" />
                   <Button mnemonicParsing="false" onAction="#exit" onMouseEntered="#playHoverSound" onMouseExited="#stopHoverSound" prefHeight="56.0" prefWidth="280.0" text="Exit" GridPane.rowIndex="5" />

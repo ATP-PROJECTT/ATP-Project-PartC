@@ -1,8 +1,12 @@
 package View;
 
+import ViewModel.MyViewModel;
 import javafx.animation.ScaleTransition;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
@@ -10,11 +14,17 @@ import javafx.util.Duration;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class HelpAboutWindowController implements Initializable {
+public class PropertiesHelpAboutController implements Initializable {
 
     public ImageView zoomImage;
+    public ComboBox comboMazeGenerator;
+    public ComboBox comboMazeSolver;
+    public Button ApplyGenerator;
+    public Button ApplySearch;
     SoundController soundController;
     private Main mainApp;
+
+    public static boolean openedFromMazeWindow;
 
 
 
@@ -27,7 +37,10 @@ public class HelpAboutWindowController implements Initializable {
     @FXML
     private void goBack() {
         soundController.playChooseSound();
-        mainApp.goBackToMainMenu();
+        if(openedFromMazeWindow)
+            openMazeWindow();
+        else
+            mainApp.goBackToMainMenu();
     }
     @FXML
     private void Hover() {
@@ -64,4 +77,34 @@ public class HelpAboutWindowController implements Initializable {
         scaleOutTransition.play();
 
     }
+
+    public void changeSearchProperty(ActionEvent actionEvent) {
+        String searchingAlgorithm = (String) comboMazeSolver.getValue();
+        if(searchingAlgorithm != null) {
+            MyViewModel.getInstance().changeSearchProperty(searchingAlgorithm);
+            MyViewModel.getInstance().makeAlert("Property changed successfully");
+        }
+        else
+            MyViewModel.getInstance().makeAlert("Choose searching algorithm before");
+
+    }
+
+    public void changeGeneratorProperty(ActionEvent actionEvent) {
+        String mazeGenerator = (String) comboMazeGenerator.getValue();
+        if(mazeGenerator != null) {
+
+            MyViewModel.getInstance().changeGeneratorProperty(mazeGenerator);
+            MyViewModel.getInstance().makeAlert("Property changed successfully");
+        }
+        else
+            MyViewModel.getInstance().makeAlert("Choose Maze Generator before");
+
+    }
+
+    public void openMazeWindow(){
+        openedFromMazeWindow = false;
+        mainApp.openMazeWindowFromWhileGameRunning();
+    }
+
+
 }

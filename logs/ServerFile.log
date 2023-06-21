@@ -1,0 +1,11 @@
+2023-06-21 14:02:45.690 [JavaFX Application Thread] INFO  Model.MyModel - A request to create a maze
+2023-06-21 14:03:43.196 [JavaFX Application Thread] INFO  Model.MyModel - A request to solve a maze
+2023-06-21 15:29:26.303 [JavaFX Application Thread] INFO  Model.MyModel - A request to create a maze
+2023-06-21 15:32:51.405 [JavaFX Application Thread] INFO  Model.MyModel - A request to create a maze
+2023-06-21 20:03:08.722 [JavaFX Application Thread] INFO  Model.MyModel - A request to create a maze
+2023-06-21 21:29:35.871 [JavaFX Application Thread] INFO  Model.MyModel - A request to create a maze
+2023-06-21 21:31:25.771 [JavaFX Application Thread] INFO  Model.MyModel - A request to create a maze
+2023-06-21 21:32:34.358 [JavaFX Application Thread] INFO  Model.MyModel - A request to create a maze
+2023-06-21 21:33:50.160 [JavaFX Application Thread] INFO  Model.MyModel - A request to create a maze
+2023-06-21 21:36:02.857 [JavaFX Application Thread] INFO  Model.MyModel - A request to create a maze
+2023-06-21 21:36:05.768 [JavaFX Application Thread] INFO  Model.MyModel - A request to solve a maze

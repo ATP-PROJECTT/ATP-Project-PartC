@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="INFO">
+<Configuration status="info">
     <Appenders>
-            <File name="FileAppender" fileName="logs/LogFile.log">
-            <PatternLayout pattern="%d [%t] %-5level %logger{36} - %msg%n"/>
-            </File>
+        <File name="LogFile" fileName="logs/ServerFile.log">
+            <PatternLayout pattern="%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </File>
     </Appenders>
     <Loggers>
         <Root level="info">
-            <AppenderRef ref="FileAppender"/>
+            <AppenderRef ref="LogFile"/>
         </Root>
     </Loggers>
 </Configuration>

@@ -52,7 +52,25 @@
         </HBox>
     </bottom>
     <top>
-        <VBox BorderPane.alignment="CENTER" />
+        <VBox BorderPane.alignment="CENTER">
+            <children>
+                <MenuBar>
+                    <menus>
+                        <Menu mnemonicParsing="false" text="Edit">
+                            <items>
+                                <MenuItem onAction="#openProperties" mnemonicParsing="false" text="Properties" />
+                            </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="Help">
+                            <items>
+                                <MenuItem onAction="#openHelp" mnemonicParsing="false" text="Game controllers" />
+                                <MenuItem onAction="#openAbout" mnemonicParsing="false" text="About" />
+                            </items>
+                        </Menu>
+                    </menus>
+                </MenuBar>
+            </children>
+        </VBox>
     </top>
     <center>
         <Pane fx:id="stackPane" BorderPane.alignment="CENTER">

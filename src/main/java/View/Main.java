@@ -12,13 +12,17 @@ public class Main extends Application {
 
     private Stage primaryStage;
     private Scene mainMenuScene;
-    private Scene myViewScene;
+    private Scene mazeWindow;
 
     private Scene helpWindowScene;
 
     private Scene AboutWindowScene;
 
+    private Scene propertiesWindowScene;
+
     private SoundController soundController;
+
+    private PropertiesHelpAboutController propertiesHelpAboutController;
 
 
 
@@ -45,8 +49,8 @@ public class Main extends Application {
     public void openHelpWindowScene() throws IOException {
         FXMLLoader helpWindowLoader = new FXMLLoader(getClass().getResource("HelpWindow.fxml"));
         Parent myViewRoot = helpWindowLoader.load();
-        HelpAboutWindowController helpAboutWindowController = helpWindowLoader.getController();
-        helpAboutWindowController.setMainApp(this);
+        propertiesHelpAboutController = helpWindowLoader.getController();
+        propertiesHelpAboutController.setMainApp(this);
 
         helpWindowScene = new Scene(myViewRoot, 800, 750);
 
@@ -58,8 +62,8 @@ public class Main extends Application {
         FXMLLoader aboutWindowLoader = new FXMLLoader(getClass().getResource("AboutWindow.fxml"));
         Parent myViewRoot = aboutWindowLoader.load();
 
-        HelpAboutWindowController helpAboutWindowController = aboutWindowLoader.getController();
-        helpAboutWindowController.setMainApp(this);
+        propertiesHelpAboutController = aboutWindowLoader.getController();
+        propertiesHelpAboutController.setMainApp(this);
 
         AboutWindowScene = new Scene(myViewRoot, 800, 750);
 
@@ -74,11 +78,11 @@ public class Main extends Application {
         MyViewController myViewController = myViewLoader.getController();
         myViewController.setMainApp(this);
 
-        myViewScene = new Scene(myViewRoot, 900, 750);
+        mazeWindow = new Scene(myViewRoot, 900, 750);
 
-        primaryStage.setScene(myViewScene);
-        primaryStage.setTitle("My View");
-        myViewController.setResize(myViewScene);
+        primaryStage.setScene(mazeWindow);
+        primaryStage.setTitle("Maze Window");
+        myViewController.setResize(mazeWindow);
     }
 
     public void goBackToMainMenu() {
@@ -90,5 +94,23 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    public void openPropertiesWindowScene() throws IOException {
+        FXMLLoader aboutWindowLoader = new FXMLLoader(getClass().getResource("PropertiesWindow.fxml"));
+        Parent myViewRoot = aboutWindowLoader.load();
+
+        propertiesHelpAboutController = aboutWindowLoader.getController();
+        propertiesHelpAboutController.setMainApp(this);
+
+        propertiesWindowScene = new Scene(myViewRoot, 800, 750);
+
+        primaryStage.setScene(propertiesWindowScene);
+        primaryStage.setTitle("Properties Window");
+    }
+
+    public void openMazeWindowFromWhileGameRunning(){
+        primaryStage.setScene(mazeWindow);
+        primaryStage.setTitle("Maze Window");
     }
 }

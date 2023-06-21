@@ -62,7 +62,13 @@ public class MainMenuController implements Initializable {
 
     public void loadMazeByName(ActionEvent actionEvent) throws IOException {
         openMyViewWindow();
-        MyViewModel.getInstance().loadMaze(nameForSave.getText());
+        String name = nameForSave.getText();
+        if (MyViewController.containsOnlyNumbersOrLetters(name)) {
+            MyViewModel.getInstance().loadMaze(name);
+        }
+        else
+            MyViewModel.getInstance().makeAlert("Name should contains only letters and numbers");
+
     }
 
     public void openHelpWindowScene(ActionEvent actionEvent) throws IOException {
@@ -71,5 +77,9 @@ public class MainMenuController implements Initializable {
 
     public void openAboutWindowScene(ActionEvent actionEvent) throws IOException {
         mainApp.openAboutWindowScene();
+    }
+
+    public void openPropertiesWindowScene(ActionEvent actionEvent) throws IOException {
+        mainApp.openPropertiesWindowScene();
     }
 }

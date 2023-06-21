@@ -36,6 +36,7 @@ public class MyViewModel extends Observable implements IViewModel {
 
 
 
+
     private MyViewModel(){
         myModel = new MyModel();
         myModel.addViewModel(this);
@@ -77,16 +78,21 @@ public class MyViewModel extends Observable implements IViewModel {
                 event = "set solution";
             }
             catch (ClassCastException exception2){
-                SavableGame myGame = (SavableGame) arg;
-                myMaze = (Maze) myGame.getGame();
-                int[] position = (int[]) myGame.getPosition();
-                playerRow = position[0];
-                playerCol = position[1];
-                goalRow = myMaze.getGoalPosition().getRowIndex();
-                goalCol = myMaze.getGoalPosition().getColumnIndex();
-                event = "maze generated";
-                playerAskForHint = false;
-                solution = null;
+                try {
+                    SavableGame myGame = (SavableGame) arg;
+                    myMaze = (Maze) myGame.getGame();
+                    int[] position = (int[]) myGame.getPosition();
+                    playerRow = position[0];
+                    playerCol = position[1];
+                    goalRow = myMaze.getGoalPosition().getRowIndex();
+                    goalCol = myMaze.getGoalPosition().getColumnIndex();
+                    event = "maze generated";
+                    playerAskForHint = false;
+                    solution = null;
+                }
+                catch (ClassCastException exception3){
+                    event = "file not found";
+                }
             }
         }
         this.notifyObservers(event);
@@ -100,9 +106,7 @@ public class MyViewModel extends Observable implements IViewModel {
     @Override
     public void solve() {
         if(myMaze == null){
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setContentText("Generate maze first");
-            alert.show();
+            makeAlert("Generate maze first");
             return;
         }
         if(solution != null){
@@ -212,9 +216,7 @@ public class MyViewModel extends Observable implements IViewModel {
     public void makeHint() {
 
         if(myMaze == null){
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setContentText("Generate maze first");
-            alert.show();
+            makeAlert("Generate maze first");
             return;
         }
         if(solution != null){
@@ -236,5 +238,19 @@ public class MyViewModel extends Observable implements IViewModel {
 
         boolean diagonal = Math.abs(row - playerRow) == 1 && Math.abs(col - playerCol) == 1;
         setPlayerPosition(row, col,diagonal);
+    }
+
+    public void changeSearchProperty(String searchingAlgorithm) {
+        myModel.setSearchingAlgorithm(searchingAlgorithm);
+    }
+
+    public void changeGeneratorProperty(String mazeGenerator) {
+        myModel.setMazeGenerator(mazeGenerator);
+    }
+
+    public void makeAlert(String message){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setContentText(message);
+        alert.show();
     }
 }
