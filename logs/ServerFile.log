@@ -15,3 +15,19 @@
 2023-06-22 01:56:24.084 [JavaFX Application Thread] INFO  Model.MyModel - A request to solve a maze
 2023-06-22 02:22:08.628 [JavaFX Application Thread] INFO  Model.MyModel - A request to create a maze
 2023-06-22 02:22:18.148 [JavaFX Application Thread] INFO  Model.MyModel - A request to solve a maze
+2023-06-22 02:27:00.255 [JavaFX Application Thread] INFO  Model.MyModel - A request to create a maze
+2023-06-22 02:27:03.770 [JavaFX Application Thread] INFO  Model.MyModel - A request to solve a maze
+2023-06-22 02:27:06.875 [JavaFX Application Thread] INFO  Model.MyModel - A request to create a maze
+2023-06-22 02:27:09.646 [JavaFX Application Thread] INFO  Model.MyModel - A request to create a maze
+2023-06-22 02:27:10.619 [JavaFX Application Thread] INFO  Model.MyModel - A request to create a maze
+2023-06-22 02:27:47.136 [JavaFX Application Thread] INFO  Model.MyModel - A request to create a maze
+2023-06-22 17:48:28.768 [JavaFX Application Thread] INFO  Model.MyModel - A request to create a maze
+2023-06-22 17:48:46.557 [JavaFX Application Thread] INFO  Model.MyModel - A request to solve a maze
+2023-06-22 17:48:51.761 [JavaFX Application Thread] INFO  Model.MyModel - A request to create a maze
+2023-06-22 17:48:58.742 [JavaFX Application Thread] INFO  Model.MyModel - A request to create a maze
+2023-06-22 17:49:01.072 [JavaFX Application Thread] INFO  Model.MyModel - A request to solve a maze
+2023-06-22 17:49:42.567 [JavaFX Application Thread] INFO  Model.MyModel - Property changed successfully
+2023-06-22 17:49:53.616 [JavaFX Application Thread] INFO  Model.MyModel - A request to create a maze
+2023-06-22 17:55:22.736 [JavaFX Application Thread] INFO  Model.MyModel - Generate maze first
+2023-06-22 17:55:24.823 [JavaFX Application Thread] INFO  Model.MyModel - Generate maze first
+2023-06-22 17:55:30.881 [JavaFX Application Thread] INFO  Model.MyModel - A request to create a maze

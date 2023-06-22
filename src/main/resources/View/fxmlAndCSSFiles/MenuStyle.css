@@ -1,12 +1,12 @@
 
 .root {
-    -fx-background-image: url('images/icy-tower-backround.jpg');
+    -fx-background-image: url('../Images/icy-tower-backround.jpg');
     -fx-background-size: cover;
 }
 
 @font-face {
     font-family: 'Icy tower font';
-    src: url('font/icy-tower-menu2.ttf');
+    src: url('../font/icy-tower-menu2.ttf');
 }
 
 
@@ -16,7 +16,7 @@ Button  {
     -fx-font-size: 26;
     -fx-text-stroke: white;
     -fx-text-stroke-width: 4px;
-    -fx-background-image: url('images/floorBackround.png');
+    -fx-background-image: url('../Images/floorBackround.png');
     -fx-background-size: contain;
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.6), 5, 0.0, 0, 1);
 }
@@ -24,7 +24,7 @@ Button  {
 
 
 Button:hover {
-    -fx-background-image: url('images/floorBackroundHover.png');
+    -fx-background-image: url('../Images/floorBackroundHover.png');
 }
 
 Label {

@@ -32,7 +32,7 @@ public class Main extends Application {
         this.primaryStage = primaryStage;
 
         // Create the main menu scene
-        FXMLLoader mainMenuLoader = new FXMLLoader(getClass().getResource("MyView2.fxml"));
+        FXMLLoader mainMenuLoader = new FXMLLoader(getClass().getResource("fxmlAndCSSFiles/MyView2.fxml"));
         Parent mainMenuRoot = mainMenuLoader.load();
         MainMenuController mainMenuController = mainMenuLoader.getController();
         mainMenuController.setMainApp(this);
@@ -47,7 +47,7 @@ public class Main extends Application {
     }
 
     public void openHelpWindowScene() throws IOException {
-        FXMLLoader helpWindowLoader = new FXMLLoader(getClass().getResource("HelpWindow.fxml"));
+        FXMLLoader helpWindowLoader = new FXMLLoader(getClass().getResource("fxmlAndCSSFiles/HelpWindow.fxml"));
         Parent myViewRoot = helpWindowLoader.load();
         propertiesHelpAboutController = helpWindowLoader.getController();
         propertiesHelpAboutController.setMainApp(this);
@@ -59,7 +59,7 @@ public class Main extends Application {
     }
 
     public void openAboutWindowScene() throws IOException {
-        FXMLLoader aboutWindowLoader = new FXMLLoader(getClass().getResource("AboutWindow.fxml"));
+        FXMLLoader aboutWindowLoader = new FXMLLoader(getClass().getResource("fxmlAndCSSFiles/AboutWindow.fxml"));
         Parent myViewRoot = aboutWindowLoader.load();
 
         propertiesHelpAboutController = aboutWindowLoader.getController();
@@ -73,7 +73,7 @@ public class Main extends Application {
 
 
     public void openMyViewScene() throws IOException {
-        FXMLLoader myViewLoader = new FXMLLoader(getClass().getResource("MyView.fxml"));
+        FXMLLoader myViewLoader = new FXMLLoader(getClass().getResource("fxmlAndCSSFiles/MyView.fxml"));
         Parent myViewRoot = myViewLoader.load();
         MyViewController myViewController = myViewLoader.getController();
         myViewController.setMainApp(this);
@@ -97,7 +97,7 @@ public class Main extends Application {
     }
 
     public void openPropertiesWindowScene() throws IOException {
-        FXMLLoader aboutWindowLoader = new FXMLLoader(getClass().getResource("PropertiesWindow.fxml"));
+        FXMLLoader aboutWindowLoader = new FXMLLoader(getClass().getResource("fxmlAndCSSFiles/PropertiesWindow.fxml"));
         Parent myViewRoot = aboutWindowLoader.load();
 
         propertiesHelpAboutController = aboutWindowLoader.getController();

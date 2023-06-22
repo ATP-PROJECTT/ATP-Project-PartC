@@ -1,36 +1,32 @@
 package ViewModel;
 
 import Model.MyModel;
-import Model.SavableGame;
 import View.SoundController;
 import algorithms.mazeGenerators.Maze;
 import algorithms.search.AState;
 import algorithms.search.Solution;
 import javafx.scene.control.Alert;
 import javafx.scene.input.KeyEvent;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Observable;
 import java.util.Random;
 
 public class MyViewModel extends Observable implements IViewModel {
 
+    private static final Logger logger = LogManager.getLogger(MyModel.class);
     private SoundController soundController;
     MyModel myModel;
-    private boolean playerAskForHint;
-
-    public Maze myMaze;
-
-    private Solution solution;
 
     private ArrayList<AState> fullSolutionPathCopy;
     private ArrayList<AState> solutionPath;
 
-    private int playerRow;
-    private int playerCol;
-    private int goalRow;
+    private boolean playerAskForHint;
 
-    private int goalCol;
+
 
     private static MyViewModel myViewModel;
 
@@ -57,61 +53,30 @@ public class MyViewModel extends Observable implements IViewModel {
 
     @Override
     public void update(Observable o, Object arg) {
+        if(Objects.equals(arg, "set solution")){
+            Solution solution = myModel.getSolution();
+            solutionPath = solution.getSolutionPath();
+            fullSolutionPathCopy = new ArrayList<>();
+            fullSolutionPathCopy.addAll(solutionPath);
+            solutionPath.clear();
+        }
+
         this.setChanged();
-        String event = "";
-        try {
-            myMaze = (Maze) arg;
-            event = "maze generated";
-            playerRow = myMaze.getStartPosition().getRowIndex();
-            playerCol = myMaze.getStartPosition().getColumnIndex();
-            goalRow = myMaze.getGoalPosition().getRowIndex();
-            goalCol = myMaze.getGoalPosition().getColumnIndex();
-            playerAskForHint = false;
-            solution = null;
-        }
-        catch (ClassCastException exception){
-            try {
-                solution = (Solution) arg;
-                solutionPath = solution.getSolutionPath();
-                fullSolutionPathCopy = new ArrayList<>();
-                fullSolutionPathCopy.addAll(solutionPath);
-                solutionPath.clear();
-                event = "set solution";
-            }
-            catch (ClassCastException exception2){
-                try {
-                    SavableGame myGame = (SavableGame) arg;
-                    myMaze = (Maze) myGame.getGame();
-                    int[] position = (int[]) myGame.getPosition();
-                    playerRow = position[0];
-                    playerCol = position[1];
-                    goalRow = myMaze.getGoalPosition().getRowIndex();
-                    goalCol = myMaze.getGoalPosition().getColumnIndex();
-                    event = "maze generated";
-                    playerAskForHint = false;
-                    solution = null;
-                }
-                catch (ClassCastException exception3){
-                    event = "file not found";
-                }
-            }
-        }
-        this.notifyObservers(event);
+        this.notifyObservers(arg);
     }
 
     @Override
     public void save(String name){
-        int[] playerPosition = {playerRow,playerCol};
-        myModel.save(new SavableGame(myMaze,playerPosition,name));
+        myModel.save(name);
     }
 
     @Override
     public void solve() {
-        if(myMaze == null){
+        if(myModel.getGame() == null){
             makeAlert("Generate maze first");
             return;
         }
-        if(solution != null){
+        if(myModel.getSolution() != null){
             playerAskForHint = false;
             this.setChanged();
             this.notifyObservers("set solution");
@@ -119,30 +84,30 @@ public class MyViewModel extends Observable implements IViewModel {
         }
 
         playerAskForHint = false;
-        myModel.solve(myMaze);
+        myModel.solve();
     }
 
 
     public int getPlayerRow() {
-        return playerRow;
+        return myModel.getPlayerRow();
     }
 
 
     public int getPlayerCol() {
-        return playerCol;
+        return myModel.getPlayerCol();
     }
 
     private void setPlayerPosition(int row, int col, boolean diagonalMove){
-        if( row >= 0 && col >=0 && row < myMaze.getRows() && col < myMaze.getColumns() && myMaze.isTherePassHere(row,col)){
+        if( row >= 0 && col >=0 && row < myModel.getMazeRows() && col < myModel.getMazeCols() && myModel.isTherePassHere(row,col)){
             if(diagonalMove){
-                if(!(myMaze.isTherePassHere(playerRow, col) || myMaze.isTherePassHere(row, playerCol))) // cant move diagonal
+                if(!(myModel.isTherePassHere(myModel.getPlayerRow(), col) || myModel.isTherePassHere(row, myModel.getPlayerCol()))) // cant move diagonal
                     return;
                 soundController.playDiagonalMoveSound();
             }
             else
                 soundController.playRegularMoveSound();
-            playerRow = row;
-            playerCol = col;
+            myModel.setPlayerRow(row);
+            myModel.setPlayerCol(col);
         }
     }
 
@@ -152,16 +117,16 @@ public class MyViewModel extends Observable implements IViewModel {
     }
 
     public boolean gotToGoalPoint(){
-        return goalCol == playerCol && goalRow == playerRow;
+        return getGoalCol() == getPlayerCol() && getGoalRow() == getPlayerRow();
     }
 
-    public int[][] getMaze() {
-        return myMaze.getMyMatrix();
+    public int[][] getMazeMatrix() {
+        return ((Maze)myModel.getGame()).getMyMatrix();
     }
 
     public char keyPressed(KeyEvent keyEvent) {
-        int row = playerRow;
-        int col = playerCol;
+        int row = getPlayerRow();
+        int col = getPlayerCol();
         boolean diagonalMove = false;
 
         switch (keyEvent.getCode()) {
@@ -190,7 +155,7 @@ public class MyViewModel extends Observable implements IViewModel {
 
     public Solution getSolution() {
         if(playerAskForHint){
-            if(solutionPath.size() == fullSolutionPathCopy.size()) return solution;
+            if(solutionPath.size() == fullSolutionPathCopy.size()) return myModel.getSolution();
 
             Random random = new Random();
             int randomIndex = random.nextInt(fullSolutionPathCopy.size());
@@ -205,41 +170,41 @@ public class MyViewModel extends Observable implements IViewModel {
             solutionPath.clear();
             solutionPath.addAll(fullSolutionPathCopy);
         }
-        return solution;
+        return myModel.getSolution();
     }
 
     public int getGoalRow() {
-        return goalRow;
+        return myModel.getGoalRow();
     }
 
     public int getGoalCol() {
-        return goalCol;
+        return myModel.getGoalCol();
     }
 
     public void makeHint() {
 
-        if(myMaze == null){
+        if(myModel.getGame() == null){
             makeAlert("Generate maze first");
             return;
         }
-        if(solution != null){
+        if(myModel.getSolution() != null){
             this.setChanged();
             this.notifyObservers("set solution");
             return;
         }
 
         playerAskForHint = true;
-        myModel.solve(myMaze);
+        myModel.solve();
 
     }
 
 
     public void updateCharacterLocationByMouse(int row, int col) {
-        boolean moreThenOneStep = Math.abs(row - playerRow) > 1 || Math.abs(col - playerCol) > 1;
-        boolean playerDoesntMove = row == playerRow && col == playerCol;
+        boolean moreThenOneStep = Math.abs(row - getPlayerRow()) > 1 || Math.abs(col - getPlayerCol()) > 1;
+        boolean playerDoesntMove = row == getPlayerRow() && col == getPlayerCol();
         if(moreThenOneStep || playerDoesntMove) return;
 
-        boolean diagonal = Math.abs(row - playerRow) == 1 && Math.abs(col - playerCol) == 1;
+        boolean diagonal = Math.abs(row - getPlayerRow()) == 1 && Math.abs(col - getPlayerCol()) == 1;
         setPlayerPosition(row, col,diagonal);
     }
 
@@ -255,5 +220,6 @@ public class MyViewModel extends Observable implements IViewModel {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText(message);
         alert.show();
+        logger.info(message);
     }
 }

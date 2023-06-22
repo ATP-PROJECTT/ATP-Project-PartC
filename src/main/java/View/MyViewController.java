@@ -192,7 +192,7 @@ public class MyViewController implements Initializable, Observer, IView {
         playerWon = false;
         isMazeGenerated = true;
         soundController.changeToGameMusic();
-        mazeDisplayer.drawMaze(myViewModel.getMaze(), myViewModel.getGoalRow(), myViewModel.getGoalCol());
+        mazeDisplayer.drawMaze(myViewModel.getMazeMatrix(), myViewModel.getGoalRow(), myViewModel.getGoalCol());
         playerMoved();
     }
 

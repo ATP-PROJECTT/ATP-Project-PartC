@@ -6,12 +6,14 @@ import ViewModel.IViewModel;
 import algorithms.mazeGenerators.Maze;
 import Server.*;
 import IO.*;
+import algorithms.search.AState;
 import algorithms.search.Solution;
 
 import java.io.*;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
@@ -25,6 +27,30 @@ public class MyModel extends Observable implements IModel {
     Server mazeGeneratingServer;
     Server solveSearchProblemServer;
     int[] curMazeDimensions;
+
+    private boolean playerAskForHint;
+
+    private Maze myMaze;
+
+    private Solution solution;
+
+
+
+    public void setPlayerRow(int playerRow) {
+        this.playerRow = playerRow;
+    }
+
+    public void setPlayerCol(int playerCol) {
+        this.playerCol = playerCol;
+    }
+
+    private int playerRow;
+    private int playerCol;
+    private int goalRow;
+
+    private int goalCol;
+
+
 
     public MyModel(){
         mazeGeneratingServer = new Server(5400, 1000, new ServerStrategyGenerateMaze());
@@ -50,7 +76,14 @@ public class MyModel extends Observable implements IModel {
                         InputStream is = new MyDecompressorInputStream(new ByteArrayInputStream(compressedMaze));
                         byte[] decompressedMaze = new byte[ mazeDimensions[0] * mazeDimensions[1] + 32 ];
                         is.read(decompressedMaze);
-                        notifyViewModel(new Maze(decompressedMaze));
+                        myMaze = new Maze(decompressedMaze);
+                        playerRow = myMaze.getStartPosition().getRowIndex();
+                        playerCol = myMaze.getStartPosition().getColumnIndex();
+                        goalRow = myMaze.getGoalPosition().getRowIndex();
+                        goalCol = myMaze.getGoalPosition().getColumnIndex();
+                        playerAskForHint = false;
+                        solution = null;
+                        notifyViewModel("maze generated");
 
                     } catch (Exception var10) {
                         var10.printStackTrace();
@@ -76,8 +109,8 @@ public class MyModel extends Observable implements IModel {
     }
 
     @Override
-    public void solve(Object mazeObject) {
-        Maze maze = (Maze) mazeObject;
+    public void solve() {
+
         try {
             Client client = new Client(InetAddress.getLocalHost(), 5401, new IClientStrategy() {
                 public void clientStrategy(InputStream inFromServer, OutputStream outToServer) {
@@ -85,10 +118,10 @@ public class MyModel extends Observable implements IModel {
                         logger.info("A request to solve a maze");
                         ObjectOutputStream toServer = new ObjectOutputStream(outToServer);
                         ObjectInputStream fromServer = new ObjectInputStream(inFromServer);
-                        toServer.writeObject(maze);
+                        toServer.writeObject(myMaze);
                         toServer.flush();
-                        Solution mazeSolution = (Solution)fromServer.readObject();
-                        notifyViewModel(mazeSolution);
+                        solution = (Solution)fromServer.readObject();
+                        notifyViewModel("set solution");
                     } catch (Exception var10) {
                         var10.printStackTrace();
                     }
@@ -102,15 +135,13 @@ public class MyModel extends Observable implements IModel {
     }
 
     @Override
-    public void save(SavableGame savableMaze) {
-        Maze maze = (Maze) savableMaze.getGame();
-        int[] pose = (int[]) savableMaze.getPosition();
+    public void save(String mazeName) {
 
-        byte[] rowPose = toByteInfo(pose[0]);
-        byte[] colPose = toByteInfo(pose[1]);
-        byte[] combined = combineByteArrays(maze.toByteArray(),rowPose,colPose);
+        byte[] rowPose = toByteInfo(playerRow);
+        byte[] colPose = toByteInfo(playerCol);
+        byte[] combined = combineByteArrays(myMaze.toByteArray(),rowPose,colPose);
         byte[] compressedMaze = MyCompressorOutputStream.compressToBinary(combined);
-        saveObject(compressedMaze, savableMaze.getGameName());
+        saveObject(compressedMaze, mazeName);
 
     }
 
@@ -201,16 +232,40 @@ public class MyModel extends Observable implements IModel {
                 }
             }
 
-            Maze maze = new Maze(mazeArr);
-            int rowPosition = toIntInfo(rowPoseArr);
-            int colPosition = toIntInfo(colPose);
-            int[] position = {rowPosition, colPosition};
-            notifyViewModel(new SavableGame(maze,position,gameName));
+            myMaze = new Maze(mazeArr);
+            playerRow = toIntInfo(rowPoseArr);
+            playerCol = toIntInfo(colPose);
+            goalRow = myMaze.getGoalPosition().getRowIndex();
+            goalCol = myMaze.getGoalPosition().getColumnIndex();
+            playerAskForHint = false;
+            solution = null;
+            notifyViewModel("maze generated");
 
 
         } catch (IOException | ClassNotFoundException e) {
         }
     }
+
+    @Override
+    public Object getGame() {
+        return myMaze;
+    }
+
+    @Override
+    public Solution getSolution() {
+        return solution;
+    }
+
+    @Override
+    public int getPlayerRow() {
+        return playerRow;
+    }
+
+    @Override
+    public int getPlayerCol() {
+        return playerCol;
+    }
+
 
     private int toIntInfo(byte[] byteArray) {
         StringBuilder binaryString = new StringBuilder();
@@ -237,5 +292,25 @@ public class MyModel extends Observable implements IModel {
 
     public void setMazeGenerator(String mazeGenerator) {
         Configurations.getInstance().setIMazeGenerator(mazeGenerator);
+    }
+
+    public boolean isTherePassHere(int row, int col){
+        return myMaze.isTherePassHere(row, col);
+    }
+
+    public int getMazeRows(){
+        return myMaze.getRows();
+    }
+
+    public int getMazeCols(){
+        return  myMaze.getColumns();
+    }
+
+    public int getGoalRow() {
+        return goalRow;
+    }
+
+    public int getGoalCol() {
+        return goalCol;
     }
 }

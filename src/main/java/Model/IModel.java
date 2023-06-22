@@ -13,9 +13,18 @@ public interface IModel {
 
     void notifyViewModel(Object o);
 
-    void solve(Object game);
+    void solve();
 
-    void save(SavableGame savableGame);
+    void save(String gameName);
 
     void load(String gameName);
+
+    Object getGame();
+    Solution getSolution();
+
+    int getPlayerRow();
+    int getPlayerCol();
+
+
+
 }

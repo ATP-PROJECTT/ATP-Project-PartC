@@ -21,22 +21,22 @@
          <children>
             <ImageView fitHeight="81.0" fitWidth="134.0" onMouseEntered="#mouseOnImage" onMouseExited="#mouseExitFromImage" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
                <image>
-                  <Image url="@Images/ScreenMovement.jpg" />
+                  <Image url="@../Images/ScreenMovement.jpg" />
                </image>
             </ImageView>
             <ImageView fitHeight="171.0" fitWidth="98.0" onMouseEntered="#mouseOnImage" onMouseExited="#mouseExitFromImage" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="3">
                <image>
-                  <Image url="@Images/PlayerMovement.png" />
+                  <Image url="@../Images/PlayerMovement.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="96.0" fitWidth="87.0" onMouseEntered="#mouseOnImage" onMouseExited="#mouseExitFromImage" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <image>
-                  <Image url="@Images/PlayerMovementRules.png" />
+                  <Image url="@../Images/PlayerMovementRules.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="120.0" fitWidth="60.0" onMouseEntered="#mouseOnImage" onMouseExited="#mouseExitFromImage" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <image>
-                  <Image url="@Images/Zoom.png" />
+                  <Image url="@../Images/Zoom.png" />
                </image>
             </ImageView>
             <Label prefHeight="57.0" prefWidth="206.0" text="Player movemont conrolers" wrapText="true" GridPane.rowIndex="2" />
