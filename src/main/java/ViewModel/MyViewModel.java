@@ -47,7 +47,7 @@ public class MyViewModel extends Observable implements IViewModel {
 
     @Override
     public void generateSearchableGame(Object mazeDimensions){
-        myModel.requestBoard(mazeDimensions);
+        myModel.requestGame(mazeDimensions);
     }
 
 

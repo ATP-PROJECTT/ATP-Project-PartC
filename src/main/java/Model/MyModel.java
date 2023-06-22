@@ -58,8 +58,13 @@ public class MyModel extends Observable implements IModel {
         solveSearchProblemServer.start();
         mazeGeneratingServer.start();
     }
+
+    /**
+     * create maze with the given dimensions and update the viewModel Observer
+     * @param rowsAndColsArray int[] {row, cols}
+     */
     @Override
-    public void requestBoard(Object rowsAndColsArray) {
+    public void requestGame(Object rowsAndColsArray) {
 
         try {
             Client client = new Client(InetAddress.getLocalHost(), 5400,  new IClientStrategy() {
@@ -97,17 +102,28 @@ public class MyModel extends Observable implements IModel {
         }
     }
 
+    /**
+     * add viewModel to the observers vector
+     * @param viewModel
+     */
     @Override
     public void addViewModel(IViewModel viewModel) {
         this.addObserver(viewModel);
     }
 
+    /**
+     * notify the viewModel for the changes
+     * @param o
+     */
     @Override
-    public void notifyViewModel(Object o) {
+    public void notifyViewModel(String o) {
         this.setChanged();
         notifyObservers(o);
     }
 
+    /**
+     * solving myMaze and update the viewModel Observer
+     */
     @Override
     public void solve() {
 
@@ -134,6 +150,10 @@ public class MyModel extends Observable implements IModel {
         }
     }
 
+    /**
+     * saving the current maze with the current player position
+     * @param mazeName name of the file for saving
+     */
     @Override
     public void save(String mazeName) {
 
@@ -145,6 +165,11 @@ public class MyModel extends Observable implements IModel {
 
     }
 
+    /**
+     * saving the given array in disk
+     * @param arrForSave
+     * @param fileName
+     */
     private void saveObject(byte[] arrForSave, String fileName){
 
         // Specify the desired file path within the resources package

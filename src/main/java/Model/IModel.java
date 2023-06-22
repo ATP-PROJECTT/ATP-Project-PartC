@@ -1,29 +1,27 @@
 package Model;
 
 import ViewModel.IViewModel;
-import algorithms.search.ISearchable;
 import algorithms.search.Solution;
+import javafx.beans.Observable;
 
-import java.util.Observer;
+public interface IModel{
+    void requestGame(Object details); // generate a game and notify the ViewModel
 
-public interface IModel {
-    void requestBoard(Object details);
+    void addViewModel(IViewModel viewModel); // add the given view model to the observers vector
 
-    void addViewModel(IViewModel viewModel);
+    void notifyViewModel(String o); // notify the view model observer for the event that just happened
 
-    void notifyViewModel(Object o);
+    void solve(); // solving the game and notify the ViewModel
 
-    void solve();
+    void save(String gameName); // saving the game on disk
 
-    void save(String gameName);
+    void load(String gameName); // loading the compatible game and notify the ViewModel
 
-    void load(String gameName);
+    Object getGame(); // return the current game that's running
+    Solution getSolution(); // returning the solution of the current maze
 
-    Object getGame();
-    Solution getSolution();
-
-    int getPlayerRow();
-    int getPlayerCol();
+    int getPlayerRow(); // returning the row index of the player in the game
+    int getPlayerCol(); // returning the column index of the player in the game
 
 
 
