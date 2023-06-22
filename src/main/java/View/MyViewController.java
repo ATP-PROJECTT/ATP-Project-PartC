@@ -50,6 +50,9 @@ public class MyViewController implements Initializable, Observer, IView {
 
     }
 
+    /**
+     * set the images that will showed by the mazeDisplyer
+     */
     public void setImages(){
         String wallImagePath = getClass().getResource("Images/wall.png").toExternalForm();
         wallImagePath = wallImagePath.substring("file:".length());// Remove the "file:" prefix present
@@ -99,10 +102,6 @@ public class MyViewController implements Initializable, Observer, IView {
         this.updatePlayerRow.set(updatePlayerRow + "");
     }
 
-    public String getUpdatePlayerCol() {
-        return updatePlayerCol.get();
-    }
-
     public void setUpdatePlayerCol(int updatePlayerCol) {
         this.updatePlayerCol.set(updatePlayerCol + "");
     }
@@ -132,6 +131,10 @@ public class MyViewController implements Initializable, Observer, IView {
         playerCol.textProperty().bind(updatePlayerCol);
     }
 
+    /**
+     * ask from the viem model for generating a maze with the inserted dimensions
+     * @param actionEvent
+     */
     public void generateGame(ActionEvent actionEvent) {
         soundController.playChooseSound();
 
@@ -156,7 +159,12 @@ public class MyViewController implements Initializable, Observer, IView {
 
     }
 
-    public void solveMaze(ActionEvent actionEvent) {
+    /**
+     * ask th
+     * @param actionEvent
+     */
+    @Override
+    public void solve(ActionEvent actionEvent) {
         soundController.playChooseSound();
         myViewModel.solve();
     }
@@ -171,6 +179,9 @@ public class MyViewController implements Initializable, Observer, IView {
         mazeDisplayer.displaySolution(myViewModel.getSolution());
     }
 
+    /**
+     * handle the event "player moved" if got to the goal point, the player wins. then update the visual location of the character
+     */
     private void playerMoved() {
         if(myViewModel.gotToGoalPoint()) {
             playerWon = true;
@@ -187,6 +198,9 @@ public class MyViewController implements Initializable, Observer, IView {
 
     }
 
+    /**
+     * handle the "maze generated" event. asking the maze displayer to display the maze
+     */
     private void mazeGenerated() {
         setImages();
         playerWon = false;
@@ -196,6 +210,10 @@ public class MyViewController implements Initializable, Observer, IView {
         playerMoved();
     }
 
+    /**
+     * handle the key press situation by calling a function from the view model
+     * @param keyEvent
+     */
     public void keyPressed(KeyEvent keyEvent){
         if((!isMazeGenerated) || playerWon) return;
         char event = myViewModel.keyPressed(keyEvent);
@@ -209,11 +227,20 @@ public class MyViewController implements Initializable, Observer, IView {
 
     }
 
+    /**
+     * finish the program
+     * @param actionEvent
+     */
     public void Exit(ActionEvent actionEvent) {
         soundController.playChooseSound();
         System.exit(0);
     }
 
+    /**
+     * Ask view model to save the maze after botten "save" pushed
+     * @param actionEvent
+     */
+    @Override
     public void save(ActionEvent actionEvent) {
         String fileName = saveMazeTextArea.getText();
         if(containsOnlyNumbersOrLetters(fileName)) {
@@ -235,11 +262,19 @@ public class MyViewController implements Initializable, Observer, IView {
         }
     }
 
+    /**
+     * handle the button click of "make hint button". ask view model for hint
+     * @param actionEvent
+     */
     public void makeHint(ActionEvent actionEvent) {
         soundController.playChooseSound();
         myViewModel.makeHint();
     }
 
+    /**
+     * resize the maze in case the window dimensions is getting bigger
+     * @param scene
+     */
     public void setResize(Scene scene) {
         scene.widthProperty().addListener((observable, oldValue, newValue) -> {
             //mazeDisplayer.widthProperty().bind(stackpane.widthProperty());
@@ -252,6 +287,10 @@ public class MyViewController implements Initializable, Observer, IView {
         });
     }
 
+    /**
+     * ask from view model to move the character because of mouse click event
+     * @param event
+     */
     @Override
     public void moveCharacter(Event event)
     {

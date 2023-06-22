@@ -70,6 +70,9 @@ public class MyViewModel extends Observable implements IViewModel {
         myModel.save(name);
     }
 
+    /**
+     * solving the current maze, if exist.
+     */
     @Override
     public void solve() {
         if(myModel.getGame() == null){
@@ -97,6 +100,12 @@ public class MyViewModel extends Observable implements IViewModel {
         return myModel.getPlayerCol();
     }
 
+    /**
+     * setting the player's position. check if the step is vallid before
+     * @param row
+     * @param col
+     * @param diagonalMove
+     */
     private void setPlayerPosition(int row, int col, boolean diagonalMove){
         if( row >= 0 && col >=0 && row < myModel.getMazeRows() && col < myModel.getMazeCols() && myModel.isTherePassHere(row,col)){
             if(diagonalMove){
@@ -124,6 +133,11 @@ public class MyViewModel extends Observable implements IViewModel {
         return ((Maze)myModel.getGame()).getMyMatrix();
     }
 
+    /**
+     * handle the key pres event in the maze
+     * @param keyEvent
+     * @return
+     */
     public char keyPressed(KeyEvent keyEvent) {
         int row = getPlayerRow();
         int col = getPlayerCol();
@@ -153,6 +167,10 @@ public class MyViewModel extends Observable implements IViewModel {
         return 'M';
     }
 
+    /**
+     * if the user ask for hint, we give him some positions from the given solution. If he ask for full solution we give the user a full solution
+     * @return
+     */
     public Solution getSolution() {
         if(playerAskForHint){
             if(solutionPath.size() == fullSolutionPathCopy.size()) return myModel.getSolution();
@@ -181,6 +199,9 @@ public class MyViewModel extends Observable implements IViewModel {
         return myModel.getGoalCol();
     }
 
+    /**
+     * ask for a solution from the model if doesnt exist already. the observers will notify by hint
+     */
     public void makeHint() {
 
         if(myModel.getGame() == null){
@@ -199,6 +220,11 @@ public class MyViewModel extends Observable implements IViewModel {
     }
 
 
+    /**
+     * getting a mouse location and set the character position if the step is valid
+     * @param row
+     * @param col
+     */
     public void updateCharacterLocationByMouse(int row, int col) {
         boolean moreThenOneStep = Math.abs(row - getPlayerRow()) > 1 || Math.abs(col - getPlayerCol()) > 1;
         boolean playerDoesntMove = row == getPlayerRow() && col == getPlayerCol();
@@ -216,6 +242,10 @@ public class MyViewModel extends Observable implements IViewModel {
         myModel.setMazeGenerator(mazeGenerator);
     }
 
+    /**
+     * helper functio. get message and show an alert, and write the message into the logger
+     * @param message
+     */
     public void makeAlert(String message){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText(message);

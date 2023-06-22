@@ -4,6 +4,9 @@ import javafx.fxml.FXML;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
+/**
+ * A single tone class response for all the sounds of the game
+ */
 public class SoundController {
 
     private static SoundController soundController;
@@ -20,6 +23,9 @@ public class SoundController {
 
     private MediaPlayer gameMusic;
 
+    /**
+     * import all the sound effects
+     */
     private SoundController(){
         hoverSound = getMediaPlayer("Sounds/menu_change.mp3");
         chooseSound = getMediaPlayer("Sounds/menu_choose.mp3");

@@ -160,7 +160,7 @@ public class MyModel extends Observable implements IModel {
         byte[] rowPose = toByteInfo(playerRow);
         byte[] colPose = toByteInfo(playerCol);
         byte[] combined = combineByteArrays(myMaze.toByteArray(),rowPose,colPose);
-        byte[] compressedMaze = MyCompressorOutputStream.compressToBinary(combined);
+        byte[] compressedMaze = MyCompressorOutputStream.compressToBinary(combined); // compress the array before saving it
         saveObject(compressedMaze, mazeName);
 
     }
@@ -194,6 +194,11 @@ public class MyModel extends Observable implements IModel {
 
     }
 
+    /**
+     * Generating a path for the given file
+     * @param fileName
+     * @return
+     */
     private String getPath(String fileName){
         // Get the user's home directory
         String userHome = System.getProperty("user.home");
@@ -203,6 +208,13 @@ public class MyModel extends Observable implements IModel {
         return userHome + File.separator + "ATP-Project-PartC" + File.separator + "SavedMazes" + File.separator + fileName + ".txt";
     }
 
+    /**
+     * helper function- combine the 3 given arrays into a one array
+     * @param array1
+     * @param array2
+     * @param array3
+     * @return
+     */
     private byte[] combineByteArrays(byte[] array1, byte[] array2, byte[] array3) {
         int totalLength = array1.length + array2.length + array3.length;
 
@@ -213,6 +225,12 @@ public class MyModel extends Observable implements IModel {
 
         return buffer.array();
     }
+
+    /**
+     * getting an integer and returning 16 size byte array representing the number in binary
+     * @param value
+     * @return
+     */
     private byte[] toByteInfo(int value) {
         String binaryNum = String.format("%16s", Integer.toBinaryString(value)).replace(' ', '0');
         byte[] binArray = new byte[16];
@@ -226,6 +244,10 @@ public class MyModel extends Observable implements IModel {
         return binArray;
     }
 
+    /**
+     * loading the maze with the given name
+     * @param gameName
+     */
     @Override
     public void load(String gameName) {
 
@@ -236,9 +258,11 @@ public class MyModel extends Observable implements IModel {
                 notifyViewModel("file not found");
                 return;
             }
+
             FileInputStream fileInputStream = new FileInputStream(newFile);
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-            List<Byte> decompressed = MyDecompressorInputStream.decompress((byte[]) objectInputStream.readObject());
+            List<Byte> decompressed = MyDecompressorInputStream.decompress((byte[]) objectInputStream.readObject()); // decompress the array representing the game
+
             byte[] mazeArr = new byte[decompressed.size() - 32];
             byte[] rowPoseArr = new byte[16];
             byte[] colPose = new byte[16];
@@ -292,6 +316,11 @@ public class MyModel extends Observable implements IModel {
     }
 
 
+    /**
+     * helper function - getting a byte array representing a binary number and return the number in decimal
+     * @param byteArray
+     * @return
+     */
     private int toIntInfo(byte[] byteArray) {
         StringBuilder binaryString = new StringBuilder();
         byte[] var3 = byteArray;
@@ -305,16 +334,19 @@ public class MyModel extends Observable implements IModel {
         return Integer.parseInt(binaryString.toString(), 2);
     }
 
-    public void stop(){
-        mazeGeneratingServer.stop();
-        solveSearchProblemServer.stop();
-    }
 
-
+    /**
+     * changing the property "searching algorithm" for the given search algorithm
+     * @param searchingAlgorithm
+     */
     public void setSearchingAlgorithm(String searchingAlgorithm) {
         Configurations.getInstance().setISearchingAlgorithm(searchingAlgorithm);
     }
 
+    /**
+     * changing the property "Maze Generator" for the given mazeGenerator
+     * @param mazeGenerator
+     */
     public void setMazeGenerator(String mazeGenerator) {
         Configurations.getInstance().setIMazeGenerator(mazeGenerator);
     }

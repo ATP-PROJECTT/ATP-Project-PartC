@@ -121,6 +121,12 @@ public class MazeDisplayer extends Canvas {
         this.imageFileNamePlayerInGoalPose.set(imageFileNamePlayer);
     }
 
+    /**
+     * getting a 2d array represents maze and draw it
+     * @param maze
+     * @param goalRow
+     * @param goalCol
+     */
     public void drawMaze(int[][] maze, int goalRow, int goalCol) {
         this.maze = deepCopyMaze(maze);
         this.goalRow = goalRow;
@@ -147,6 +153,9 @@ public class MazeDisplayer extends Canvas {
         return (getHeight() * zoomFactor) / maze.length;
     }
 
+    /**
+     * drawing the maze
+     */
     private void draw() {
         if(maze != null){
             double canvasHeight = getHeight() * zoomFactor; // Apply zoomFactor
@@ -173,7 +182,14 @@ public class MazeDisplayer extends Canvas {
     }
 
 
-
+    /**
+     * draw the maze walls with the given details
+     * @param graphicsContext
+     * @param cellHeight
+     * @param cellWidth
+     * @param rows
+     * @param cols
+     */
     private void drawMazeWalls(GraphicsContext graphicsContext, double cellHeight, double cellWidth, int rows, int cols) {
         graphicsContext.setFill(Color.RED);
 
@@ -218,6 +234,13 @@ public class MazeDisplayer extends Canvas {
 
     }
 
+    /**
+     * draw the player in the maze
+     * @param graphicsContext
+     * @param cellHeight
+     * @param cellWidth
+     * @param playerImageStr
+     */
     private void drawPlayer(GraphicsContext graphicsContext, double cellHeight, double cellWidth, String playerImageStr) {
         int playerPosAfterShiftX = playerCol - screenShiftX;
         int playerPosAfterShiftY = playerRow - screenShiftY;
@@ -239,6 +262,10 @@ public class MazeDisplayer extends Canvas {
             graphicsContext.drawImage(playerImage, x, y, cellWidth, cellHeight);
     }
 
+    /**
+     * display the solution to the maze
+     * @param mazeSolution
+     */
     public void displaySolution(Solution mazeSolution){
 
         ArrayList<AState> mazeSolutionSteps = mazeSolution.getSolutionPath();
@@ -252,6 +279,7 @@ public class MazeDisplayer extends Canvas {
 
         draw();
     }
+
 
     private int[][] deepCopyMaze(int[][] originalMaze) {
 
